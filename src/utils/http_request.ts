@@ -1,10 +1,11 @@
-const fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response> =
-    (() => {
-        if (process.env.BUILD_ENV === "node") {
-            return require('node-fetch').default;
-        }
-        return window.fetch;
-    })();
+// const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
+
+const fetchApi: (input: RequestInfo, init?: RequestInit) => Promise<Response> = (() => {
+    if (typeof window === 'undefined' || !window.fetch) {
+        return require('node-fetch').default;
+    }
+    return window.fetch;
+})();
 
 
 export class HttpRequest {
@@ -24,7 +25,7 @@ export class HttpRequest {
         url = this.baseUrl + url + Object.keys(query).
             map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
 
-        return fetch(url, {
+        return fetchApi(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

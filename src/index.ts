@@ -1,3 +1,6 @@
 export * from "./contracts/erc20";
 export * from "./global";
-export * from "./web3.js/web3_client";
+export * from "./abstracts";
+// export * from "./utils";
+export * from "./interfaces";
+export * from "./types";

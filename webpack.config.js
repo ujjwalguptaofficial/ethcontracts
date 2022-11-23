@@ -33,11 +33,12 @@ function getConfig(target) {
         resolve: {
             extensions: ['.tsx', '.ts', '.js']
         },
+        target: "node",
         output: {
             path: path.resolve(__dirname, 'dist/'),
             filename: target.name,
-            library: 'EthContracts',
-            libraryTarget: 'umd'
+            library: target.type === 'var' ? 'EthContracts' : undefined,
+            libraryTarget: target.type
         },
         plugins: [
             new webpack.BannerPlugin(banner),
@@ -46,6 +47,13 @@ function getConfig(target) {
                     { from: path.resolve('build_helper', 'npm.export.js'), to: '' },
                 ],
             }),
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+            },
+                // ...(
+                //     target.type === 'commonjs2' ? { 'process.env.BUILD_ENV': "'node'", } : {}
+                // )
+            )
         ]
     };
 
