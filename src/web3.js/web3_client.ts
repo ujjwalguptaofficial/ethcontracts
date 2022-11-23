@@ -1,13 +1,13 @@
 import { BaseContract, BaseWeb3Client } from "../abstracts";
 import Web3 from "web3";
-import { config } from "../config";
+import { global } from "../global";
 import { Web3Contract } from "./contract";
 
 export class Web3Client extends BaseWeb3Client {
     private web3_: Web3;
 
     constructor(provider: any) {
-        super(config.logger);
+        super(global.logger);
         this.web3_ = new Web3(provider);
     }
 

@@ -8,7 +8,7 @@ export class ABIService {
     }
 
     getABI(contractName: string) {
-        const url = `abi/${contractName}.json`;
+        const url = `${contractName}.json`;
         return this.httpRequest_.get(url);
     }
 }

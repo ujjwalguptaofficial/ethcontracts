@@ -1,19 +1,23 @@
 import { BaseContract, BaseWeb3Client } from "../abstracts";
-import { initService } from "../services";
+import { initService, service } from "../services";
 
 export class BaseToken {
 
     tokenAddress: string;
     private client_: BaseWeb3Client;
     protected contract: BaseContract;
+    protected contractName: string;
 
-    constructor(tokenAddress: string) {
+    constructor(tokenAddress: string, contractName: string) {
         this.tokenAddress = tokenAddress;
+        this.contractName = contractName;
     }
 
-    init(provider) {
-        this.client_ = provider;
-        this.contract = this.client_.getContract(this.tokenAddress, '');
+    init(client: BaseWeb3Client) {
+        this.client_ = client;
         initService();
+        return service.abi.getABI(this.contractName).then(abi => {
+            this.contract = this.client_.getContract(this.tokenAddress, abi);
+        });
     }
 }

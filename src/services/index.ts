@@ -1,4 +1,4 @@
-import { config } from "../config"
+import { global } from "../global"
 import { ABIService } from "./abi_service"
 
 export * from "./abi_service"
@@ -10,5 +10,5 @@ interface IService {
 export const service: IService = {} as any;
 
 export const initService = () => {
-    service.abi = new ABIService(config.abiStoreUrl);
+    service.abi = new ABIService(global.abiStoreUrl);
 }
