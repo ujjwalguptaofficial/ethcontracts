@@ -1,6 +1,6 @@
 const path = require('path');
-// const CopyPlugin = require('copy-webpack-plugin');
-// const banner = require('./build_helper/licence');
+const CopyPlugin = require('copy-webpack-plugin');
+const banner = require('./build_helper/licence');
 const webpack = require('webpack');
 
 
@@ -28,8 +28,7 @@ function getConfig(target) {
             ]
         },
         externals: {
-            godam: 'godam',
-            mahal: 'mahal',
+            web3: 'web3',
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.js']
@@ -37,16 +36,16 @@ function getConfig(target) {
         output: {
             path: path.resolve(__dirname, 'dist/'),
             filename: target.name,
-            library: 'MahalStore',
+            library: 'EthContracts',
             libraryTarget: 'umd'
         },
         plugins: [
-            // new webpack.BannerPlugin(banner),
-            // new CopyPlugin({
-            //     patterns: [
-            //         { from: path.resolve('build_helper', 'npm.export.js'), to: '' },
-            //     ],
-            // }),
+            new webpack.BannerPlugin(banner),
+            new CopyPlugin({
+                patterns: [
+                    { from: path.resolve('build_helper', 'npm.export.js'), to: '' },
+                ],
+            }),
         ]
     };
 
