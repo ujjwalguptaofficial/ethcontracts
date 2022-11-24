@@ -112,5 +112,31 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
                 (Number(beforeBalanceOfTo) + amount).toString()
             )
         })
+
+        it('increaseAllowance', async () => {
+            const spender = payload.signer4.address;
+            const owner = payload.deployer.address;
+            const beforeAllowance = await erc20.getAllowance(owner, spender);
+            const amount = 1000000;
+            const [getTxReceipt] = await erc20.increaseAllowance(spender, amount);
+            await getTxReceipt();
+            const afterAllowance = await erc20.getAllowance(owner, spender);
+            expect(afterAllowance).equal(
+                (Number(beforeAllowance) + amount).toString()
+            );
+        })
+
+        it('decreaseAllowance', async () => {
+            const spender = payload.signer4.address;
+            const owner = payload.deployer.address;
+            const beforeAllowance = await erc20.getAllowance(owner, spender);
+            const amount = 1000000;
+            const [getTxReceipt] = await erc20.decreaseAllowance(spender, amount);
+            await getTxReceipt();
+            const afterAllowance = await erc20.getAllowance(owner, spender);
+            expect(afterAllowance).equal(
+                (Number(beforeAllowance) - amount).toString()
+            );
+        })
     })
 }
