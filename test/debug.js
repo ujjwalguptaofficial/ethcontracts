@@ -10,8 +10,11 @@ async function init() {
     );
 
 
-    const balance = await token.getBalance("0xd5D3F35Bdd08950CCFE0DeAb638F8B5498297076");
-    console.log("balance", balance);
+    // const balance = await token.getBalance("0xd5D3F35Bdd08950CCFE0DeAb638F8B5498297076");
+    // console.log("balance", balance);
+
+    const totalSupply = await token.getTotalSupply();
+    console.log("totalSupply", totalSupply);
 }
 
 init();
