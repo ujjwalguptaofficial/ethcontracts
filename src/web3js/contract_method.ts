@@ -12,10 +12,6 @@ export class ContractMethod extends BaseContractMethod {
         super(logger);
     }
 
-    toHex(value) {
-        return value != null ? Web3.utils.toHex(value) : value;
-    }
-
     read<T>(tx: ITransactionRequestConfig): Promise<T> {
         this.logger.log("sending tx with config", tx);
         return this.method.call(

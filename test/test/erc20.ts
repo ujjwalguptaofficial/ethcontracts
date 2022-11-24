@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BaseWeb3Client, ERC20 } from "@opweb3/ethcontracts"
-import { expect } from "chai";
+import { assert, expect } from "chai";
 import { TransactionReceipt } from "web3-core";
 import { IDeployedPayload } from "./interface"
 
@@ -25,7 +25,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
 
         it('decimals', async () => {
             const decimals = await erc20.getDecimals();
-            expect(decimals).equal('18');
+            assert.equal(decimals, 18);
         })
 
         it('symbol', async () => {
@@ -65,10 +65,10 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
             const afterBalanceOfFrom = await erc20.getBalance(from);
             const aftereBalanceOfTo = await erc20.getBalance(to);
 
-            expect(afterBalanceOfFrom).eql(
+            expect(afterBalanceOfFrom.toString()).equal(
                 (Number(beforeBalanceOfFrom) - amount).toString()
             )
-            expect(aftereBalanceOfTo).eql(
+            expect(aftereBalanceOfTo.toString()).eql(
                 (Number(beforeBalanceOfTo) + amount).toString()
             )
         })
@@ -105,10 +105,10 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
             const afterBalanceOfFrom = await erc20.getBalance(from);
             const aftereBalanceOfTo = await erc20.getBalance(to);
 
-            expect(afterBalanceOfFrom).eql(
+            expect(afterBalanceOfFrom.toString()).eql(
                 (Number(beforeBalanceOfFrom) - amount).toString()
             )
-            expect(aftereBalanceOfTo).eql(
+            expect(aftereBalanceOfTo.toString()).eql(
                 (Number(beforeBalanceOfTo) + amount).toString()
             )
         })
