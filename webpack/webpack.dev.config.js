@@ -4,10 +4,10 @@ const { merge } = require('webpack-merge');
 
 const libraryTarget = [{
     type: "var",
-    name: `${baseConfig[0].name}.js`
+    name: `${baseConfig.name}.js`
 }, {
     type: "commonjs2",
-    name: `${baseConfig[0].name}.commonjs2.js`
+    name: `${baseConfig.name}.commonjs2.js`
 }];
 
 function getConfigForTaget(target) {

@@ -1,30 +1,39 @@
 const path = require('path');
-const SmartBannerPlugin = require('smart-banner-webpack-plugin');
-const banner = require('../build_helper/licence');
 const CopyPlugin = require('copy-webpack-plugin');
+const banner = require('../build_helper/licence');
+const webpack = require('webpack');
+var nodeExternals = require('webpack-node-externals');
 
-module.exports = [{
-    name: "godam",
-    entry: "./src/index.ts",
+const appName = "ethcontracts";
+module.exports = {
+    name: appName,
+    entry: './src/index.ts',
+    devtool: 'source-map',
+    mode: process.env.NODE_ENV || 'development',
     module: {
         rules: [{
-            test: /\.ts$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'ts-loader'
-            }
-        }]
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/
+        },
+        ]
     },
-    mode: 'none',
+    // externals: {
+    //     web3: 'web3',
+    // },
+    externals: [nodeExternals()],
     resolve: {
-        extensions: ['.ts', '.js'] // '' is needed to find modules like "jquery"
+        extensions: ['.tsx', '.ts', '.js']
     },
     plugins: [
-        new SmartBannerPlugin(banner),
+        new webpack.BannerPlugin(banner),
         new CopyPlugin({
             patterns: [
                 { from: path.resolve('build_helper', 'npm.export.js'), to: '' },
             ],
         }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        })
     ]
-}];
+}

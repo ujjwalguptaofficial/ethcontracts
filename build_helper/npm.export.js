@@ -1,6 +1,6 @@
 if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./ethcontracts.commonjs2.min.js');
+    module.exports = require('./ethcontracts.node.min.js');
 }
 else {
-    module.exports = require('./ethcontracts.commonjs2.js');
+    module.exports = require('./ethcontracts.node.js');
 }
