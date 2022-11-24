@@ -1,7 +1,7 @@
-import { ITransactionRequestConfig } from "../interfaces";
+import { IERC20, ITransactionRequestConfig } from "../interfaces";
 import { BaseToken } from "./base_token";
 
-export class ERC20 extends BaseToken {
+export class ERC20 extends BaseToken implements IERC20 {
 
     constructor(tokenAddress: string, contractName?: string) {
         super(tokenAddress, contractName || 'erc20');
@@ -32,34 +32,32 @@ export class ERC20 extends BaseToken {
     }
 
     transfer(to: string, amount, tx?: ITransactionRequestConfig) {
-        return this.contract.method("transfer", to, amount.toString()).write(
-            this.createWriteTxConfig_(tx)
-        );
+        const method = this.contract.method("transfer", to, amount.toString());
+        return this.processWriteTransaction(method, tx);
     }
 
 
-    approve(spender: string, amount, tx?: ITransactionRequestConfig) {
-        return this.contract.method("approve", spender, amount.toString()).write(
-            this.createWriteTxConfig_(tx)
-        );
-    }
+    // approve(spender: string, amount, tx?: ITransactionRequestOption) {
+    //     const method = this.contract.method("approve", spender, amount.toString());
+    //     return this.processWriteTransaction(method, tx);
+    // }
 
 
-    transferFrom(from: string, to: string, amount, tx?: ITransactionRequestConfig) {
-        return this.contract.method("transferFrom", from, to, amount.toString()).write(
-            this.createWriteTxConfig_(tx)
-        );
-    }
+    // transferFrom(from: string, to: string, amount, tx?: ITransactionRequestOption) {
+    //     return this.contract.method("transferFrom", from, to, amount.toString()).write(
+    //         this.createWriteTxConfig_(tx)
+    //     );
+    // }
 
-    increaseAllowance(spender: string, addedValue, tx?: ITransactionRequestConfig) {
-        return this.contract.method("increaseAllowance", spender, addedValue.toString()).write(
-            this.createWriteTxConfig_(tx)
-        );
-    }
+    // increaseAllowance(spender: string, addedValue, tx?: ITransactionRequestOption) {
+    //     return this.contract.method("increaseAllowance", spender, addedValue.toString()).write(
+    //         this.createWriteTxConfig_(tx)
+    //     );
+    // }
 
-    decreaseAllowance(spender: string, subtractedValue, tx?: ITransactionRequestConfig) {
-        return this.contract.method("decreaseAllowance", spender, subtractedValue.toString()).write(
-            this.createWriteTxConfig_(tx)
-        );
-    }
+    // decreaseAllowance(spender: string, subtractedValue, tx?: ITransactionRequestOption) {
+    //     return this.contract.method("decreaseAllowance", spender, subtractedValue.toString()).write(
+    //         this.createWriteTxConfig_(tx)
+    //     );
+    // }
 }

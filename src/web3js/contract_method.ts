@@ -56,4 +56,8 @@ export class ContractMethod extends BaseContractMethod {
             txRequestConfigToWeb3(tx) as any
         );
     }
+
+    encodeABI() {
+        return this.method.encodeABI();
+    }
 }
