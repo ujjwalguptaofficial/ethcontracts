@@ -1,10 +1,11 @@
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BaseWeb3Client, ERC20 } from "@opweb3/ethcontracts"
 import { expect } from "chai";
 import { TransactionReceipt } from "web3-core";
 import { IDeployedPayload } from "./interface"
 
 
-export function testERC20(payload: IDeployedPayload, web3Client: BaseWeb3Client) {
+export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
     describe("erc20", () => {
         let erc20: ERC20;
 
@@ -13,7 +14,7 @@ export function testERC20(payload: IDeployedPayload, web3Client: BaseWeb3Client)
             await erc20.init(
                 // new Web3Client(network.provider)
 
-                web3Client
+                getWeb3Client(payload.deployer)
             )
         })
 
@@ -83,9 +84,33 @@ export function testERC20(payload: IDeployedPayload, web3Client: BaseWeb3Client)
             const afterAllowance = await erc20.getAllowance(owner, spender);
             expect(afterAllowance).equal(amount.toString());
         })
-        
-        // it('approve', async () => {
-        //     erc20.approve(payload.signer4.address, 1000000)
-        // })
+
+        it('transferFrom', async () => {
+            const to = payload.signer3.address;
+            const from = payload.deployer.address;
+            const beforeBalanceOfFrom = await erc20.getBalance(from);
+            const beforeBalanceOfTo = await erc20.getBalance(to);
+
+            const token = new ERC20(payload.erc20Token1.address);
+            await token.init(
+                getWeb3Client(payload.signer4)
+            )
+
+            const amount = 10000;
+            const [getTxReceipt] = await token.transferFrom(payload.deployer.address, to, amount);
+            await getTxReceipt();
+
+            // check for amount transfer 
+
+            const afterBalanceOfFrom = await erc20.getBalance(from);
+            const aftereBalanceOfTo = await erc20.getBalance(to);
+
+            expect(afterBalanceOfFrom).eql(
+                (Number(beforeBalanceOfFrom) - amount).toString()
+            )
+            expect(aftereBalanceOfTo).eql(
+                (Number(beforeBalanceOfTo) + amount).toString()
+            )
+        })
     })
 }

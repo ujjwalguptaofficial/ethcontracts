@@ -43,11 +43,10 @@ export class ERC20 extends BaseToken implements IERC20 {
     }
 
 
-    // transferFrom(from: string, to: string, amount, tx?: ITransactionRequestOption) {
-    //     return this.contract.method("transferFrom", from, to, amount.toString()).write(
-    //         this.createWriteTxConfig_(tx)
-    //     );
-    // }
+    transferFrom(from: string, to: string, amount, tx?: ITransactionRequestConfig) {
+        const method = this.contract.method("transferFrom", from, to, amount.toString());
+        return this.processWriteTransaction(method, tx);
+    }
 
     // increaseAllowance(spender: string, addedValue, tx?: ITransactionRequestOption) {
     //     return this.contract.method("increaseAllowance", spender, addedValue.toString()).write(
