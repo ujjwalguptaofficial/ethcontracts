@@ -5,6 +5,7 @@ import { ethers, upgrades } from "hardhat"
 import { describe } from "mocha";
 import { IDeployedPayload } from "./interface";
 import { testERC20 } from "./erc20";
+import { testWeb3Js } from "./web3js";
 
 describe("contracts", () => {
 
@@ -35,7 +36,7 @@ describe("contracts", () => {
         await payload.erc20Token1.mint(payload.signer4.address, 900000000000);
     });
 
-    it('erc20', () => {
-        testERC20(payload);
+    it('web3js', () => {
+        testWeb3Js(payload);
     })
 })

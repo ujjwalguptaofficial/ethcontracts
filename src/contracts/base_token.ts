@@ -31,5 +31,11 @@ export class BaseToken {
         return tx;
     }
 
+    protected getProperty<T>(property: string) {
+        return this.contract.method(
+            property
+        ).read<T>();
+    }
+
     static config = globalConfig;
 }

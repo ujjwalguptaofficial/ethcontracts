@@ -1,12 +1,11 @@
-import { ERC20, Web3Client } from "@opweb3/ethcontracts"
+import { BaseWeb3Client, ERC20 } from "@opweb3/ethcontracts"
 import { expect } from "chai";
-import { AbstractProvider, TransactionReceipt } from "web3-core";
+import { TransactionReceipt } from "web3-core";
 import { IDeployedPayload } from "./interface"
-import toWeb3Provider from "ethers-to-web3"
 
 
-export function testERC20(payload: IDeployedPayload) {
-    describe("erc20 methods", () => {
+export function testERC20(payload: IDeployedPayload, web3Client: BaseWeb3Client) {
+    describe("erc20", () => {
         let erc20: ERC20;
 
         it('setup', async () => {
@@ -14,8 +13,23 @@ export function testERC20(payload: IDeployedPayload) {
             await erc20.init(
                 // new Web3Client(network.provider)
 
-                new Web3Client(toWeb3Provider(payload.deployer))
+                web3Client
             )
+        })
+
+        it('name', async () => {
+            const name = await erc20.getName();
+            expect(name).equal('MyToken');
+        })
+
+        it('decimals', async () => {
+            const decimals = await erc20.getDecimals();
+            expect(decimals).equal('18');
+        })
+
+        it('symbol', async () => {
+            const symbol = await erc20.getSymbol();
+            expect(symbol).equal('MT');
         })
 
         it('user balance', async () => {

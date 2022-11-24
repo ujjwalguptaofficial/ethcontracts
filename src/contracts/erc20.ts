@@ -7,6 +7,18 @@ export class ERC20 extends BaseToken {
         super(tokenAddress, contractName || 'erc20');
     }
 
+    getName() {
+        return this.getProperty<string>("name");
+    }
+
+    getDecimals() {
+        return this.getProperty<string>("decimals");
+    }
+
+    getSymbol() {
+        return this.getProperty<string>("symbol");
+    }
+
     getBalance<T>(userAdddress: string) {
         return this.contract.method("balanceOf", userAdddress).read<T | any>();
     }
