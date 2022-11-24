@@ -71,5 +71,21 @@ export function testERC20(payload: IDeployedPayload, web3Client: BaseWeb3Client)
                 (Number(beforeBalanceOfTo) + amount).toString()
             )
         })
+
+        it('approve', async () => {
+            const spender = payload.signer4.address;
+            const owner = payload.deployer.address;
+            const beforeAllowance = await erc20.getAllowance(owner, spender);
+            expect(beforeAllowance).equal('0');
+            const amount = 1000000;
+            const [getTxReceipt] = await erc20.approve(spender, amount);
+            await getTxReceipt();
+            const afterAllowance = await erc20.getAllowance(owner, spender);
+            expect(afterAllowance).equal(amount.toString());
+        })
+        
+        // it('approve', async () => {
+        //     erc20.approve(payload.signer4.address, 1000000)
+        // })
     })
 }

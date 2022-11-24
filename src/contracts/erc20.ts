@@ -28,7 +28,7 @@ export class ERC20 extends BaseToken implements IERC20 {
     }
 
     getAllowance<T>(owner: string, spender: string) {
-        return this.contract.method("allowance", owner, spender).read<T>();
+        return this.contract.method("allowance", owner, spender).read<T | any>();
     }
 
     transfer(to: string, amount, tx?: ITransactionRequestConfig) {
@@ -37,10 +37,10 @@ export class ERC20 extends BaseToken implements IERC20 {
     }
 
 
-    // approve(spender: string, amount, tx?: ITransactionRequestOption) {
-    //     const method = this.contract.method("approve", spender, amount.toString());
-    //     return this.processWriteTransaction(method, tx);
-    // }
+    approve(spender: string, amount, tx?: ITransactionRequestConfig) {
+        const method = this.contract.method("approve", spender, amount.toString());
+        return this.processWriteTransaction(method, tx);
+    }
 
 
     // transferFrom(from: string, to: string, amount, tx?: ITransactionRequestOption) {
