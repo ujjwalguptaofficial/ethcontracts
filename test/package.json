@@ -28,6 +28,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@opweb3/ethcontracts": "file:../opweb3-ethcontracts-1.0.0.tgz"
+    "@opweb3/ethcontracts": "file:../opweb3-ethcontracts-1.0.0.tgz",
+    "web3": "^1.8.1"
   }
 }

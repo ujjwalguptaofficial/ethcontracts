@@ -1,5 +1,5 @@
 {
-  "name": "@ethcontracts/core",
+  "name": "@opweb3/ethcontracts",
   "version": "1.0.0",
   "description": "Readymade ethereum contracts implementation with support for all ethereum library.",
   "main": "dist/npm.export.js",

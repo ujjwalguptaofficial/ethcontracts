@@ -1,4 +1,5 @@
 import { BaseContract, BaseWeb3Client } from "../abstracts";
+import { globalConfig } from "../global";
 import { initService, service } from "../services";
 
 export class BaseToken {
@@ -14,10 +15,13 @@ export class BaseToken {
     }
 
     init(client: BaseWeb3Client) {
+        client.logger = globalConfig.logger;
         this.client_ = client;
-        initService();
+        initService(globalConfig);
         return service.abi.getABI(this.contractName).then(abi => {
             this.contract = this.client_.getContract(this.tokenAddress, abi);
         });
     }
+
+    static config = globalConfig;
 }
