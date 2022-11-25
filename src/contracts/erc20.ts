@@ -7,8 +7,6 @@ export class ERC20 extends BaseToken implements IERC20 {
         super(tokenAddress, contractName || 'erc20');
     }
 
-
-
     getDecimals() {
         return this.getProperty<string>("decimals");
     }

@@ -6,6 +6,7 @@ export interface IERC721 {
     getName();
     getSymbol();
     getBalance(owner: string);
+    getTokenCount(owner: string);
     getOwner(tokenId);
     getTokenURI(tokenId);
     getApprovedAccount(tokenId);

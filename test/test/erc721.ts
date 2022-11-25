@@ -1,15 +1,18 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BaseWeb3Client, ERC721 } from "@opweb3/ethcontracts"
 import { assert, expect } from "chai";
+import { ethers } from "hardhat";
 import { TransactionReceipt } from "web3-core";
+import { MyNFT } from "../typechain-types";
 import { IDeployedPayload } from "./interface"
 
 
-export function testERC721(payload: IDeployedPayload, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
+export function testERC721(payload: IDeployedPayload, getNftToken: () => MyNFT, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
     let erc721: ERC721;
-
+    let nftToken: MyNFT;
     it('setup', async () => {
-        erc721 = new ERC721(payload.erc20Token1.address);
+        nftToken = getNftToken();
+        erc721 = new ERC721(nftToken.address);
         await erc721.init(
             // new Web3Client(network.provider)
 
@@ -19,111 +22,149 @@ export function testERC721(payload: IDeployedPayload, getWeb3Client: (user: Sign
 
     it('name', async () => {
         const name = await erc721.getName();
-        expect(name).equal('MyToken');
+        expect(name).equal('MyNFTToken');
     })
 
     it('symbol', async () => {
         const symbol = await erc721.getSymbol();
-        expect(symbol).equal('MT');
+        expect(symbol).equal('MNFT');
     })
 
-    it('user balance', async () => {
-        const userBalance = await erc721.getBalance(payload.deployer.address);
+    it('getTokenCount', async () => {
+        const userBalance = await erc721.getTokenCount(payload.deployer.address);
         expect(Number(userBalance)).greaterThan(0)
     })
 
-    // it('transfer to signer2', async () => {
-    //     const amount = 1000;
-    //     const to = payload.signer2.address;
-    //     const from = payload.deployer.address;
-    //     const beforeBalanceOfFrom = await erc721.getBalance(from);
-    //     const beforeBalanceOfTo = await erc721.getBalance(to);
+    it('getOwner', async () => {
+        const owner = await erc721.getOwner(1);
+        expect(owner).equal(payload.deployer.address);
+    })
 
-    //     const [getTransactionHash, getTxReceipt] = await erc721.transfer(to, amount);
-    //     const txhash = await getTransactionHash();
-    //     const receipt = await getTxReceipt<TransactionReceipt>();
-    //     expect(txhash).to.be.string;
+    it('getTokenURI', async () => {
+        const owner = await erc721.getTokenURI(1);
+        expect(owner).equal("https://mynft.com/1");
+    })
 
-    //     // check receipt
-    //     expect(receipt.transactionHash).equal(txhash);
-    //     expect(receipt.blockHash).to.be.string;
-    //     expect(receipt.to.toLowerCase()).equal(payload.erc20Token1.address.toLowerCase());
+    it('isApprovedForAll', async () => {
+        const isApprovedForAll = await erc721.isApprovedForAll(payload.deployer.address, payload.signer4.address);
+        expect(isApprovedForAll).equal(false);
+    })
 
-    //     // check for amount transfer 
+    it('transferFrom to signer2', async () => {
+        const tokenId = 1;
+        const to = payload.signer2.address;
+        const from = payload.deployer.address;
+        const beforeBalanceOfFrom = await erc721.getTokenCount(from);
+        const beforeBalanceOfTo = await erc721.getTokenCount(to);
 
-    //     const afterBalanceOfFrom = await erc721.getBalance(from);
-    //     const aftereBalanceOfTo = await erc721.getBalance(to);
+        const [getTransactionHash, getTxReceipt] = await erc721.transferFrom(from, to, tokenId);
+        const txhash = await getTransactionHash();
+        const receipt = await getTxReceipt<TransactionReceipt>();
+        expect(txhash).to.be.string;
 
-    //     expect(afterBalanceOfFrom.toString()).equal(
-    //         (Number(beforeBalanceOfFrom) - amount).toString()
-    //     )
-    //     expect(aftereBalanceOfTo.toString()).eql(
-    //         (Number(beforeBalanceOfTo) + amount).toString()
-    //     )
-    // })
+        // check receipt
+        expect(receipt.transactionHash).equal(txhash);
+        expect(receipt.blockHash).to.be.string;
+        expect(receipt.to.toLowerCase()).equal(nftToken.address.toLowerCase());
 
-    // it('approve', async () => {
-    //     const spender = payload.signer4.address;
-    //     const owner = payload.deployer.address;
-    //     const beforeAllowance = await erc721.getAllowance(owner, spender);
-    //     const amount = 1000000;
-    //     const [getTxReceipt] = await erc721.approve(spender, amount);
-    //     await getTxReceipt();
-    //     const afterAllowance = await erc721.getAllowance(owner, spender);
-    //     expect(afterAllowance).equal(amount.toString());
-    // })
+        // check for amount transfer 
 
-    // it('transferFrom', async () => {
-    //     const to = payload.signer3.address;
-    //     const from = payload.deployer.address;
-    //     const beforeBalanceOfFrom = await erc721.getBalance(from);
-    //     const beforeBalanceOfTo = await erc721.getBalance(to);
+        const afterBalanceOfFrom = await erc721.getBalance(from);
+        const aftereBalanceOfTo = await erc721.getBalance(to);
 
-    //     const token = new ERC20(payload.erc20Token1.address);
-    //     await token.init(
-    //         getWeb3Client(payload.signer4)
-    //     )
+        expect(afterBalanceOfFrom.toString()).equal(
+            (Number(beforeBalanceOfFrom) - tokenId).toString()
+        )
+        expect(aftereBalanceOfTo.toString()).eql(
+            (Number(beforeBalanceOfTo) + tokenId).toString()
+        )
+    })
 
-    //     const amount = 10000;
-    //     const [getTxReceipt] = await token.transferFrom(payload.deployer.address, to, amount);
-    //     await getTxReceipt();
 
-    //     // check for amount transfer 
+    it('approve', async () => {
+        const spender = payload.signer4.address;
+        const owner = payload.deployer.address;
+        const tokenId = 11;
+        const approvedAccountBefore = await erc721.getApprovedAccount(tokenId);
+        expect(approvedAccountBefore).equal(ethers.constants.Zero);
+        const [getTxReceipt] = await erc721.approve(spender, tokenId);
+        await getTxReceipt();
+        const afterAllowance = await erc721.getApprovedAccount(tokenId);
+        expect(afterAllowance).equal(spender);
+    })
 
-    //     const afterBalanceOfFrom = await erc721.getBalance(from);
-    //     const aftereBalanceOfTo = await erc721.getBalance(to);
+    it('setApprovalForAll', async () => {
+        const spender = payload.signer4.address;
+        const owner = payload.signer2.address;
+        const tokenId = 2;
 
-    //     expect(afterBalanceOfFrom.toString()).eql(
-    //         (Number(beforeBalanceOfFrom) - amount).toString()
-    //     )
-    //     expect(aftereBalanceOfTo.toString()).eql(
-    //         (Number(beforeBalanceOfTo) + amount).toString()
-    //     )
-    // })
+        const nft = new ERC721(nftToken.address);
+        await nft.init(
+            getWeb3Client(payload.signer2)
+        )
 
-    // it('increaseAllowance', async () => {
-    //     const spender = payload.signer4.address;
-    //     const owner = payload.deployer.address;
-    //     const beforeAllowance = await erc721.getAllowance(owner, spender);
-    //     const amount = 1000000;
-    //     const [getTxReceipt] = await erc721.increaseAllowance(spender, amount);
-    //     await getTxReceipt();
-    //     const afterAllowance = await erc721.getAllowance(owner, spender);
-    //     expect(afterAllowance).equal(
-    //         (Number(beforeAllowance) + amount).toString()
-    //     );
-    // })
+        const approvedAccountBefore = await nft.isApprovedForAll(owner, spender);
+        expect(approvedAccountBefore).equal(false);
 
-    // it('decreaseAllowance', async () => {
-    //     const spender = payload.signer4.address;
-    //     const owner = payload.deployer.address;
-    //     const beforeAllowance = await erc721.getAllowance(owner, spender);
-    //     const amount = 1000000;
-    //     const [getTxReceipt] = await erc721.decreaseAllowance(spender, amount);
-    //     await getTxReceipt();
-    //     const afterAllowance = await erc721.getAllowance(owner, spender);
-    //     expect(afterAllowance).equal(
-    //         (Number(beforeAllowance) - amount).toString()
-    //     );
-    // })
+        const [getTxReceipt] = await nft.setApprovalForAll(spender, true);
+        await getTxReceipt();
+        const afterAllowance = await nft.isApprovedForAll(owner, spender);
+        expect(afterAllowance).equal(true);
+    })
+
+    return;
+
+    it('transferFrom', async () => {
+        const to = payload.signer3.address;
+        const from = payload.deployer.address;
+        const beforeBalanceOfFrom = await erc721.getBalance(from);
+        const beforeBalanceOfTo = await erc721.getBalance(to);
+
+        const token = new ERC20(payload.erc20Token1.address);
+        await token.init(
+            getWeb3Client(payload.signer4)
+        )
+
+        const amount = 10000;
+        const [getTxReceipt] = await token.transferFrom(payload.deployer.address, to, amount);
+        await getTxReceipt();
+
+        // check for amount transfer 
+
+        const afterBalanceOfFrom = await erc721.getBalance(from);
+        const aftereBalanceOfTo = await erc721.getBalance(to);
+
+        expect(afterBalanceOfFrom.toString()).eql(
+            (Number(beforeBalanceOfFrom) - amount).toString()
+        )
+        expect(aftereBalanceOfTo.toString()).eql(
+            (Number(beforeBalanceOfTo) + amount).toString()
+        )
+    })
+
+    it('increaseAllowance', async () => {
+        const spender = payload.signer4.address;
+        const owner = payload.deployer.address;
+        const beforeAllowance = await erc721.getAllowance(owner, spender);
+        const amount = 1000000;
+        const [getTxReceipt] = await erc721.increaseAllowance(spender, amount);
+        await getTxReceipt();
+        const afterAllowance = await erc721.getAllowance(owner, spender);
+        expect(afterAllowance).equal(
+            (Number(beforeAllowance) + amount).toString()
+        );
+    })
+
+    it('decreaseAllowance', async () => {
+        const spender = payload.signer4.address;
+        const owner = payload.deployer.address;
+        const beforeAllowance = await erc721.getAllowance(owner, spender);
+        const amount = 1000000;
+        const [getTxReceipt] = await erc721.decreaseAllowance(spender, amount);
+        await getTxReceipt();
+        const afterAllowance = await erc721.getAllowance(owner, spender);
+        expect(afterAllowance).equal(
+            (Number(beforeAllowance) - amount).toString()
+        );
+    })
 }

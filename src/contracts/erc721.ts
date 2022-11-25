@@ -7,6 +7,10 @@ export class ERC721 extends BaseToken implements IERC721 {
         super(tokenAddress, contractName || 'erc721');
     }
 
+    getTokenCount<T>(userAdddress: string) {
+        return this.getBalance(userAdddress);
+    }
+
     isInterfaceSupported(interfaceId: any) {
         return this.contract.method("supportsInterface", interfaceId).read<boolean>();
     }
