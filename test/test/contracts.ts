@@ -3,7 +3,7 @@ import { ethers, upgrades } from "hardhat"
 import { describe } from "mocha";
 import { IDeployedPayload } from "./interface";
 import { testERC20 } from "./erc20";
-import { EtherWeb3Client, Web3Client } from "@opweb3/ethcontracts";
+import { EthersClient, Web3Client } from "@opweb3/ethcontracts";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import toWeb3Provider from "ethers-to-web3"
 
@@ -49,7 +49,7 @@ describe("contracts", () => {
         describe('ethers', () => {
             testERC20(
                 payload, (user: SignerWithAddress) => {
-                    return new EtherWeb3Client(user as any);
+                    return new EthersClient(user as any);
                 }
             )
         })

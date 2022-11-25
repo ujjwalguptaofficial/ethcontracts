@@ -1,12 +1,13 @@
-import { providers, Wallet, utils, Contract, ethers, BigNumber } from "ethers";
+import { providers, Wallet, Contract } from "ethers";
 import { BaseWeb3Client } from "../abstracts";
-import { ITransactionRequestConfig } from "../interfaces";
 import { EtherContract } from "./contract";
 
 type ETHER_PROVIDER = providers.JsonRpcProvider;
 type ETHER_SIGNER = providers.JsonRpcSigner;
 
-export class EtherWeb3Client extends BaseWeb3Client {
+export class EthersClient extends BaseWeb3Client {
+
+    private address_;
 
     provider: ETHER_PROVIDER;
     signer: ETHER_SIGNER;
@@ -22,9 +23,6 @@ export class EtherWeb3Client extends BaseWeb3Client {
             this.provider = ((provider as Wallet).provider) as any;
         }
     }
-
-    private address_;
-
 
     init(): Promise<any> {
         return this.signer.getAddress().then(address => {
