@@ -1,12 +1,12 @@
 
-import { expect } from "chai";
-import { toUtf8Bytes } from "ethers/lib/utils";
 import { ethers, upgrades } from "hardhat"
 import { describe } from "mocha";
 import { IDeployedPayload } from "./interface";
 import { testERC20 } from "./erc20";
-import { testWeb3Js } from "./web3js";
-import { testEthers } from "./ethers";
+import { EtherWeb3Client, Web3Client } from "@opweb3/ethcontracts";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import toWeb3Provider from "ethers-to-web3"
+
 
 describe("contracts", () => {
 
@@ -37,11 +37,21 @@ describe("contracts", () => {
         await payload.erc20Token1.mint(payload.signer4.address, 900000000000);
     });
 
-    // it('web3js', () => {
-    //     testWeb3Js(payload);
-    // })
+    describe("erc20", () => {
+        describe('web3js', () => {
+            testERC20(
+                payload, (user: SignerWithAddress) => {
+                    return new Web3Client(toWeb3Provider(user));
+                }
+            )
+        })
 
-    it('ethers', () => {
-        testEthers(payload);
+        describe('ethers', () => {
+            testERC20(
+                payload, (user: SignerWithAddress) => {
+                    return new EtherWeb3Client(user as any);
+                }
+            )
+        })
     })
 })
