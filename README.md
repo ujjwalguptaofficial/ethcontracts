@@ -1,5 +1,6 @@
 [![npm version](https://badge.fury.io/js/@opweb3%2Fethcontracts.svg)](https://badge.fury.io/js/@opweb3%2Fethcontracts)
 [![GitHub version](https://badge.fury.io/gh/ujjwalguptaofficial%2Fethcontracts.svg)](https://badge.fury.io/gh/ujjwalguptaofficial%2Fethcontracts)
+[![CI](https://github.com/ujjwalguptaofficial/ethcontracts/actions/workflows/ci.yml/badge.svg)](https://github.com/ujjwalguptaofficial/ethcontracts/actions/workflows/ci.yml)
 # ethcontracts
 Readymade ethereum contracts implementation with support for all ethereum library. The contracts are created based on [openzeppelin](https://github.com/OpenZeppelin) standard.
 
@@ -42,7 +43,7 @@ import { Web3Client } from "@opweb3/ethcontracts";
 The first step is to create the token instance with tokenAddress.
 
 ```
-import { EthersClient, ERC20 } from "@opweb3/ethcontracts";
+import { EthersClient, Web3Client, ERC20 } from "@opweb3/ethcontracts";
 
 const token = new ERC20(<tokenAddress>);
 ```
@@ -51,8 +52,16 @@ const token = new ERC20(<tokenAddress>);
 
 initiate token with provider.
 
+#### ethers.js
+
 ```
 await token.init(new EthersClient(<wallet provider>));
+```
+
+#### web3.js
+
+```
+await token.init(new Web3Client(<wallet provider>));
 ```
 
 you can call init multiple times with different provider. This allows you to use the same token instance in multichain dapp.
@@ -141,7 +150,7 @@ const txReceipt = await getTransactionReceipt();
 increaseAllowance method can be used to increase the allowance of a spender.
 
 ```
-const [getTransactionHash, getTransactionReceipt] = await token.increaseAllowance(<sepnderAddress>, <amount>);
+const [getTransactionHash, getTransactionReceipt] = await token.increaseAllowance(<spenderAddress>, <amount>);
 
 const txhash = await getTransactionHash();
 const txReceipt = await getTransactionReceipt();
@@ -152,7 +161,7 @@ const txReceipt = await getTransactionReceipt();
 decreaseAllowance method can be used to decrease the allowance of a spender.
 
 ```
-const [getTransactionHash, getTransactionReceipt] = await token.decreaseAllowance(<sepnderAddress>, <amount>);
+const [getTransactionHash, getTransactionReceipt] = await token.decreaseAllowance(<spenderAddress>, <amount>);
 
 const txhash = await getTransactionHash();
 const txReceipt = await getTransactionReceipt();
