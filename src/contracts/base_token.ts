@@ -19,6 +19,19 @@ export class BaseToken {
 
     shouldReturnTx_ = false;
 
+    // common methods
+    getName() {
+        return this.getProperty<string>("name");
+    }
+
+    getSymbol() {
+        return this.getProperty<string>("symbol");
+    }
+
+    getBalance<T>(userAdddress: string) {
+        return this.contract.method("balanceOf", userAdddress).read<T | any>();
+    }
+
     get transactionData(): IERC20 {
         const that = this;
         const proxy = new Proxy({}, {
@@ -58,16 +71,16 @@ export class BaseToken {
 
     static config = globalConfig;
 
-    protected processWriteTransaction(method: BaseContractMethod, tx: ITransactionRequestConfig): Promise<TYPE_TRANSACTION_WRITE_RESULT> {
-        tx = this.createWriteTxConfig_(tx);
+    protected processWriteTransaction(method: BaseContractMethod, txConfig?: ITransactionRequestConfig): Promise<TYPE_TRANSACTION_WRITE_RESULT> {
+        txConfig = this.createWriteTxConfig_(txConfig);
         if (this.shouldReturnTx_) {
-            const result = merge(tx, {
+            const result = merge(txConfig, {
                 to: method.address,
                 data: method.encodeABI()
             } as ITransactionRequestConfig) as ITransactionRequestConfig;
             this.shouldReturnTx_ = false;
             return result as any;
         }
-        return method.write(tx);
+        return method.write(txConfig);
     }
 }
