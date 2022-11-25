@@ -15,7 +15,7 @@ export class Web3Client extends BaseWeb3Client {
     async init() {
         return this.web3_.eth.getAccounts().then(accounts => {
             this.address_ = accounts[0];
-        })
+        });
     }
 
     getContract(address: string, abi: any): BaseContract {

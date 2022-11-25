@@ -10,7 +10,7 @@ export class ContractMethod extends BaseContractMethod {
     }
 
     get address() {
-        return this.contract_.address
+        return this.contract_.address;
     }
 
     read<T>(config: ITransactionRequestConfig): Promise<T> {
@@ -68,7 +68,7 @@ export class ContractMethod extends BaseContractMethod {
                     onTransactionReceipt(receipt);
                 });
             }, 0);
-        })
+        });
 
         const getTransactionHash: TYPE_GET_TRANSACTION_HASH = () => {
             return txHashPromise;
@@ -80,6 +80,6 @@ export class ContractMethod extends BaseContractMethod {
     }
 
     encodeABI() {
-        return this.contract_.interface.encodeFunctionData(this.methodName_, this.args_)
+        return this.contract_.interface.encodeFunctionData(this.methodName_, this.args_);
     }
 }

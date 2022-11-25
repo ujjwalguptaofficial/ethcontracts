@@ -24,17 +24,17 @@ export class ERC721 extends BaseToken implements IERC721 {
 
     approve(to: string, tokenId: any, config?: ITransactionRequestConfig) {
         const method = this.contract.method("approve", to, tokenId);
-        return this.processWriteTransaction(method, config)
+        return this.processWriteTransaction(method, config);
     }
 
     setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig | undefined) {
         const method = this.contract.method("setApprovalForAll", operator, approved);
-        return this.processWriteTransaction(method, config)
+        return this.processWriteTransaction(method, config);
     }
 
     transferFrom(from: string, to: string, tokenId: any, config?: ITransactionRequestConfig | undefined) {
         const method = this.contract.method("transferFrom", from, to, tokenId);
-        return this.processWriteTransaction(method, config)
+        return this.processWriteTransaction(method, config);
     }
 
     safeTransferFrom(from: string, to: string, tokenId: any, config?: ITransactionRequestConfig) {

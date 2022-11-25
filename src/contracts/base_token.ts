@@ -35,13 +35,13 @@ export class BaseToken {
     get transactionData(): IERC20 {
         const that = this;
         const proxy = new Proxy({}, {
-            get(target, p, receiver) {
+            get(_, p, __) {
                 return new Proxy(that[p].bind(that), {
                     apply(target, thisArg, argArray) {
                         that.shouldReturnTx_ = true;
                         return Reflect.apply(target, thisArg, argArray);
                     },
-                })
+                });
             }
         });
         return proxy as any;

@@ -10,8 +10,8 @@ export interface IERC721 {
     getApprovedAccount(tokenId);
     isApprovedForAll(owner: string, operator: string);
 
-    approve(to: string, tokenId, config?: ITransactionRequestConfig)
-    setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig)
+    approve(to: string, tokenId, config?: ITransactionRequestConfig);
+    setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig);
     transferFrom(from: string, to: string, tokenId, config?: ITransactionRequestConfig);
     safeTransferFrom(from: string, to: string, tokenId, config?: ITransactionRequestConfig);
     safeTransferFromWithData(from: string, to: string, tokenId, data, config?: ITransactionRequestConfig);

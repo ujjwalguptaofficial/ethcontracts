@@ -36,7 +36,7 @@ export class ContractMethod extends BaseContractMethod {
         promiseResult.once("transactionHash", onTransactionHash)
             .once("receipt", onTransactionReceipt)
             .once("error", onTransactionError).
-            once("error", onTransactionReceiptError)
+            once("error", onTransactionReceiptError);
 
         const getTransactionHash: TYPE_GET_TRANSACTION_HASH = () => {
             return txHashPromise;

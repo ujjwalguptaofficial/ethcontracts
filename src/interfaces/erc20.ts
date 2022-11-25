@@ -14,5 +14,5 @@ export interface IERC20 {
 
     increaseAllowance(spender: string, addedValue, tx?: ITransactionRequestConfig): Promise<TYPE_TRANSACTION_WRITE_RESULT>;
 
-    decreaseAllowance(spender: string, subtractedValue, tx?: ITransactionRequestConfig): Promise<TYPE_TRANSACTION_WRITE_RESULT>
+    decreaseAllowance(spender: string, subtractedValue, tx?: ITransactionRequestConfig): Promise<TYPE_TRANSACTION_WRITE_RESULT>;
 }

@@ -9,4 +9,4 @@ export const txRequestConfigToWeb3 = (config: ITransactionRequestConfig) => {
         config.type = toHex(config.type as any) as any;
     }
     return config as TransactionConfig;
-}
+};

@@ -27,7 +27,7 @@ export class EthersClient extends BaseWeb3Client {
     init(): Promise<any> {
         return this.signer.getAddress().then(address => {
             this.address_ = address;
-        })
+        });
     }
 
     get walletAddress(): string {
