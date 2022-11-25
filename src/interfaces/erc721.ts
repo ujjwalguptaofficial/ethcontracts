@@ -1,3 +1,4 @@
+import { TYPE_TRANSACTION_WRITE_RESULT } from "../types";
 import { ITransactionRequestConfig } from "./transaction_request_config";
 
 export interface IERC721 {
@@ -10,9 +11,9 @@ export interface IERC721 {
     getApprovedAccount(tokenId);
     isApprovedForAll(owner: string, operator: string);
 
-    approve(to: string, tokenId, config?: ITransactionRequestConfig);
-    setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig);
-    transferFrom(from: string, to: string, tokenId, config?: ITransactionRequestConfig);
-    safeTransferFrom(from: string, to: string, tokenId, config?: ITransactionRequestConfig);
-    safeTransferFromWithData(from: string, to: string, tokenId, data, config?: ITransactionRequestConfig);
+    approve(to: string, tokenId, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
+    setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
+    transferFrom(from: string, to: string, tokenId, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
+    safeTransferFrom(from: string, to: string, tokenId, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
+    safeTransferFromWithData(from: string, to: string, tokenId, data, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
 }

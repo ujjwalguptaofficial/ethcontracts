@@ -2,6 +2,11 @@ import { IERC721, ITransactionRequestConfig } from "../interfaces";
 import { BaseToken } from "./base_token";
 
 export class ERC721 extends BaseToken implements IERC721 {
+
+    constructor(tokenAddress: string, contractName?: string) {
+        super(tokenAddress, contractName || 'erc721');
+    }
+
     isInterfaceSupported(interfaceId: any) {
         return this.contract.method("supportsInterface", interfaceId).read<boolean>();
     }
