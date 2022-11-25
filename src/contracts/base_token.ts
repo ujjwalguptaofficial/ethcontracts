@@ -71,7 +71,7 @@ export class BaseToken {
 
     static config = globalConfig;
 
-    protected processWriteTransaction(method: BaseContractMethod, txConfig?: ITransactionRequestConfig): Promise<TYPE_TRANSACTION_WRITE_RESULT> {
+    protected processWriteTransaction(method: BaseContractMethod, txConfig?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT {
         txConfig = this.createWriteTxConfig_(txConfig);
         if (this.shouldReturnTx_) {
             const result = merge(txConfig, {

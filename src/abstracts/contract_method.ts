@@ -7,6 +7,6 @@ export abstract class BaseContractMethod {
     }
     abstract get address(): string;
     abstract read<T>(tx?: ITransactionRequestConfig,): Promise<T>;
-    abstract write(tx: ITransactionRequestConfig): Promise<TYPE_TRANSACTION_WRITE_RESULT>;
+    abstract write(tx: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
     abstract encodeABI(): any;
 }
