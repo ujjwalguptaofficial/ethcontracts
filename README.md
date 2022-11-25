@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/@opweb3%2Fethcontracts.svg)](https://badge.fury.io/js/@opweb3%2Fethcontracts)
+[![GitHub version](https://badge.fury.io/gh/ujjwalguptaofficial%2Fethcontracts.svg)](https://badge.fury.io/gh/ujjwalguptaofficial%2Fethcontracts)
 # ethcontracts
 Readymade ethereum contracts implementation with support for all ethereum library. The contracts are created based on [openzeppelin](https://github.com/OpenZeppelin) standard.
 
