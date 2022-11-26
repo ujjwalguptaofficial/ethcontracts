@@ -33,7 +33,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.0",
     "@openzeppelin/hardhat-upgrades": "^1.21.0",
-    "@opweb3/ethcontracts": "file:../opweb3-ethcontracts-1.1.1.tgz",
+    "@opweb3/ethcontracts": "file:../opweb3-ethcontracts-1.1.2.tgz",
     "ethers-to-web3": "^0.1.6",
     "web3": "^1.8.1"
   }
