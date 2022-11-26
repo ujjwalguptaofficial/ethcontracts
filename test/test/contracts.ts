@@ -37,11 +37,28 @@ describe("contracts", () => {
         await payload.erc20Token1.mint(payload.signer4.address, 900000000000);
     });
 
+    let nftToken: MyNFT;
+    it('deploy erc721 token', async () => {
+        const contract = await ethers.getContractFactory('MyNFT');
+
+        const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
+        nftToken = deployedContract;
+
+
+        await nftToken.mint(payload.deployer.address, 1);
+        await nftToken.mint(payload.deployer.address, 11);
+        await nftToken.mint(payload.signer2.address, 2);
+        await nftToken.mint(payload.signer4.address, 3);
+    });
+
     describe("client", () => {
         describe('web3js', () => {
             testClient(
                 payload, (user: SignerWithAddress) => {
                     return new Web3Client(toWeb3Provider(user.provider));
+                },
+                (user: SignerWithAddress) => {
+                    return new Web3Client(toWeb3Provider(user));
                 }
             )
         })
@@ -50,11 +67,13 @@ describe("contracts", () => {
             testClient(
                 payload, (user: SignerWithAddress) => {
                     return new EthersClient(user.provider as any);
+                },
+                (user: SignerWithAddress) => {
+                    return new EthersClient(user as any);
                 }
             )
         })
     })
-
 
     describe("erc20", () => {
         describe('web3js', () => {
@@ -76,19 +95,7 @@ describe("contracts", () => {
 
     describe("erc721", () => {
         describe('web3js', () => {
-            let nftToken: MyNFT;
-            it('deploy erc721 token', async () => {
-                const contract = await ethers.getContractFactory('MyNFT');
 
-                const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
-                nftToken = deployedContract;
-
-
-                await nftToken.mint(payload.deployer.address, 1);
-                await nftToken.mint(payload.deployer.address, 11);
-                await nftToken.mint(payload.signer2.address, 2);
-                await nftToken.mint(payload.signer4.address, 3);
-            });
 
             testERC721(
                 payload, () => nftToken, (user: SignerWithAddress) => {

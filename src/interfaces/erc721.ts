@@ -2,7 +2,6 @@ import { TYPE_TRANSACTION_WRITE_RESULT } from "../types";
 import { ITransactionRequestConfig } from "./transaction_request_config";
 
 export interface IERC721 {
-    isInterfaceSupported(interfaceId);
     getName();
     getSymbol();
     getBalance(owner: string);
@@ -11,6 +10,7 @@ export interface IERC721 {
     getTokenURI(tokenId);
     getApprovedAccount(tokenId);
     isApprovedForAll(owner: string, operator: string);
+    isInterfaceSupported(interfaceId);
 
     approve(to: string, tokenId, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
     setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;

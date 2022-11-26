@@ -1,4 +1,3 @@
-import Web3 from "web3";
 import { Contract, } from "web3-eth-contract";
 import { PromiEvent } from "web3-core";
 import { txRequestConfigToWeb3 } from "./ethcontract_to_web3tx";

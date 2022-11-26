@@ -52,10 +52,10 @@ export class ContractMethod extends BaseContractMethod {
     write(config: ITransactionRequestConfig) {
         const promiseResult: Promise<providers.TransactionResponse> = this.getMethod_(config);
 
-        let onTransactionHash, onTransactionError;
+        let onTransactionHash, onTransactionHashError;
         const txHashPromise = new Promise<string>((res, rej) => {
             onTransactionHash = res;
-            onTransactionError = rej;
+            onTransactionHashError = rej;
         });
         let onTransactionReceipt, onTransactionReceiptError;
         const txReceiptPromise = new Promise<any>((res, rej) => {
@@ -68,9 +68,9 @@ export class ContractMethod extends BaseContractMethod {
             setTimeout(() => {
                 response.wait().then(receipt => {
                     onTransactionReceipt(receipt);
-                });
+                }).catch(onTransactionReceiptError);
             }, 0);
-        });
+        }).catch(onTransactionHashError);
 
         const getTransactionHash: TYPE_GET_TRANSACTION_HASH = () => {
             return txHashPromise;

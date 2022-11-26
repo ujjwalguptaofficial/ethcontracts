@@ -57,7 +57,7 @@ export function testERC721(payload: IDeployedPayload, getNftToken: () => MyNFT, 
         const beforeBalanceOfFrom = await erc721.getTokenCount(from);
         const beforeBalanceOfTo = await erc721.getTokenCount(to);
 
-        const [getTransactionHash, getTxReceipt] = await erc721.transferFrom(from, to, tokenId);
+        const [getTransactionHash, getTxReceipt] = erc721.transferFrom(from, to, tokenId);
         const txhash = await getTransactionHash();
         const receipt = await getTxReceipt<TransactionReceipt>();
         expect(txhash).to.be.string;
@@ -87,7 +87,7 @@ export function testERC721(payload: IDeployedPayload, getNftToken: () => MyNFT, 
         const tokenId = 11;
         const approvedAccountBefore = await erc721.getApprovedAccount(tokenId);
         expect(approvedAccountBefore).equal(ethers.constants.Zero);
-        const [getTxReceipt] = await erc721.approve(spender, tokenId);
+        const [getTxReceipt] = erc721.approve(spender, tokenId);
         await getTxReceipt();
         const afterAllowance = await erc721.getApprovedAccount(tokenId);
         expect(afterAllowance).equal(spender);
@@ -106,7 +106,7 @@ export function testERC721(payload: IDeployedPayload, getNftToken: () => MyNFT, 
         const approvedAccountBefore = await nft.isApprovedForAll(owner, spender);
         expect(approvedAccountBefore).equal(false);
 
-        const [getTxReceipt] = await nft.setApprovalForAll(spender, true);
+        const [getTxReceipt] = nft.setApprovalForAll(spender, true);
         await getTxReceipt();
         const afterAllowance = await nft.isApprovedForAll(owner, spender);
         expect(afterAllowance).equal(true);
@@ -128,7 +128,7 @@ export function testERC721(payload: IDeployedPayload, getNftToken: () => MyNFT, 
         const oldOwner = await token.getOwner(tokenId);
         expect(oldOwner).equal(from);
 
-        const [getTxReceipt] = await token.safeTransferFrom(from, to, tokenId);
+        const [getTxReceipt] = token.safeTransferFrom(from, to, tokenId);
         await getTxReceipt();
 
         // check for amount transfer 

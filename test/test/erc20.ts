@@ -49,7 +49,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         const beforeBalanceOfFrom = await erc20.getBalance(from);
         const beforeBalanceOfTo = await erc20.getBalance(to);
 
-        const [getTransactionHash, getTxReceipt] = await erc20.transfer(to, amount);
+        const [getTransactionHash, getTxReceipt] = erc20.transfer(to, amount);
         const txhash = await getTransactionHash();
         const receipt = await getTxReceipt<TransactionReceipt>();
         expect(txhash).to.be.string;
@@ -77,7 +77,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         const owner = payload.deployer.address;
         const beforeAllowance = await erc20.getAllowance(owner, spender);
         const amount = 1000000;
-        const [getTxReceipt] = await erc20.approve(spender, amount);
+        const [getTxReceipt] = erc20.approve(spender, amount);
         await getTxReceipt();
         const afterAllowance = await erc20.getAllowance(owner, spender);
         expect(afterAllowance).equal(amount.toString());
@@ -95,7 +95,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         )
 
         const amount = 10000;
-        const [getTxReceipt] = await token.transferFrom(payload.deployer.address, to, amount);
+        const [getTxReceipt] = token.transferFrom(payload.deployer.address, to, amount);
         await getTxReceipt();
 
         // check for amount transfer 
@@ -116,7 +116,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         const owner = payload.deployer.address;
         const beforeAllowance = await erc20.getAllowance(owner, spender);
         const amount = 1000000;
-        const [getTxReceipt] = await erc20.increaseAllowance(spender, amount);
+        const [getTxReceipt] = erc20.increaseAllowance(spender, amount);
         await getTxReceipt();
         const afterAllowance = await erc20.getAllowance(owner, spender);
         expect(afterAllowance).equal(
@@ -129,7 +129,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         const owner = payload.deployer.address;
         const beforeAllowance = await erc20.getAllowance(owner, spender);
         const amount = 1000000;
-        const [getTxReceipt] = await erc20.decreaseAllowance(spender, amount);
+        const [getTxReceipt] = erc20.decreaseAllowance(spender, amount);
         await getTxReceipt();
         const afterAllowance = await erc20.getAllowance(owner, spender);
         expect(afterAllowance).equal(
