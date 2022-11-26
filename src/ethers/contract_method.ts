@@ -20,7 +20,7 @@ export class ContractMethod extends BaseContractMethod {
 
     private getMethod_(config: ITransactionRequestConfig = {}) {
         const method = this.contract_[this.methodName_];
-        if (method == null) throw `No method ${this.methodName_} found`;
+        if (method == null) throw new Error(`No method ${this.methodName_} found`);
         return method(...this.args_, this.toConfig_(config));
     }
 

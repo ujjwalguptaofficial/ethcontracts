@@ -11,7 +11,7 @@ export class EthersClient extends BaseWeb3Client {
 
     provider: ETHER_PROVIDER;
     signer: ETHER_SIGNER;
-    name = "ethers"
+    name = "ethers";
 
     constructor(provider: ETHER_PROVIDER | Wallet) {
         super();
