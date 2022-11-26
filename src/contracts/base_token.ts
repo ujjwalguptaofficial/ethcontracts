@@ -50,9 +50,12 @@ export class BaseToken {
     init(client: BaseWeb3Client) {
         client.logger = globalConfig.logger;
         this.client_ = client;
-        client.init();
         initService(globalConfig);
-        return service.abi.getABI(this.contractName).then(abi => {
+        return Promise.all([
+            client.init(),
+            service.abi.getABI(this.contractName)
+        ]).then(result => {
+            const abi = result[1];
             this.contract = this.client_.getContract(this.tokenAddress, abi);
         });
     }

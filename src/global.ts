@@ -1,6 +1,6 @@
 import { Logger } from "./utils";
 
 export const globalConfig = {
-    abiStoreUrl: 'https://cdn.jsdelivr.net/gh/ujjwalguptaofficial/ethcontracts@main/abi/',
+    abiStoreUrl: 'https://raw.githubusercontent.com/ujjwalguptaofficial/ethcontracts/main/abi/',
     logger: new Logger()
 };

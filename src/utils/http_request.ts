@@ -27,10 +27,10 @@ export class HttpRequest {
 
         return fetchApi(url, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
+            // headers: {
+            //     'Content-Type': 'application/json',
+            //     'Accept': 'application/json'
+            // }
         }).then(res => {
             return res.json();
         });
