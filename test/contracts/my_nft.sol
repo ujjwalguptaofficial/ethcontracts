@@ -2,8 +2,9 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-contract MyNFT is ERC721 {
+contract MyNFT is ERC721, IERC721Receiver {
     constructor(
         string memory name,
         string memory symbol
@@ -15,5 +16,14 @@ contract MyNFT is ERC721 {
 
     function mint(address account, uint256 tokenId) external {
         _mint(account, tokenId);
+    }
+
+    function onERC721Received(
+        address operator,
+        address from,
+        uint256 tokenId,
+        bytes calldata data
+    ) external returns (bytes4) {
+        return IERC721Receiver.onERC721Received.selector;
     }
 }

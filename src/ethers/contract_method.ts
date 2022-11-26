@@ -14,12 +14,14 @@ export class ContractMethod extends BaseContractMethod {
     }
 
     read<T>(config: ITransactionRequestConfig): Promise<T> {
-        this.logger.log("sending tx with config", config);
+        this.logger.log("sending read tx with config", config);
         return this.getMethod_(config);
     }
 
     private getMethod_(config: ITransactionRequestConfig = {}) {
-        return this.contract_[this.methodName_](...this.args_, this.toConfig_(config));
+        const method = this.contract_[this.methodName_];
+        if (method == null) throw `No method ${this.methodName_} found`;
+        return method(...this.args_, this.toConfig_(config));
     }
 
     toBigNumber(value) {

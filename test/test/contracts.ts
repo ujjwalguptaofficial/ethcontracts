@@ -92,6 +92,7 @@ describe("contracts", () => {
                 await nftToken.mint(payload.deployer.address, 11);
                 await nftToken.mint(payload.signer2.address, 2);
                 await nftToken.mint(payload.signer4.address, 3);
+
             });
 
             testERC721(

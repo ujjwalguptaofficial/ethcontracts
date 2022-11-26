@@ -6,4 +6,6 @@ export abstract class BaseWeb3Client {
     abstract init(): Promise<any>;
     abstract getContract(address: string, abi: any): BaseContract;
     abstract get walletAddress(): string;
+
+    abstract name: string;
 }

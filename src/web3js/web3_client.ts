@@ -3,7 +3,9 @@ import { BaseContract, BaseWeb3Client } from "../abstracts";
 import { Web3Contract } from "./contract";
 
 export class Web3Client extends BaseWeb3Client {
+
     private web3_: Web3;
+    name = "web3js";
 
     constructor(provider: any) {
         super();

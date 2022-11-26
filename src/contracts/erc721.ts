@@ -47,12 +47,14 @@ export class ERC721 extends BaseToken implements IERC721 {
     }
 
     safeTransferFrom(from: string, to: string, tokenId: any, config?: ITransactionRequestConfig) {
-        const method = this.contract.method("safeTransferFrom", from, to, tokenId);
+        const methodName = "safeTransferFrom(address,address,uint256)";
+        const method = this.contract.method(methodName, from, to, tokenId);
         return this.processWriteTransaction(method, config);
     }
 
     safeTransferFromWithData(from: string, to: string, tokenId: any, data: any, config?: ITransactionRequestConfig) {
-        const method = this.contract.method("safeTransferFrom", from, to, tokenId, data);
+        const methodName = "safeTransferFrom(address,address,uint256,bytes)"
+        const method = this.contract.method(methodName, from, to, tokenId, data);
         return this.processWriteTransaction(method, config);
     }
 
