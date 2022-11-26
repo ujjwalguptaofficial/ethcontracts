@@ -24,7 +24,7 @@ npm i @opweb3/ethcontracts
 
 ## setup
 
-You can use any ethereum library. Currently we support ethers and web3.js. You just have to provide appropriate client to the contract class.
+You can use any ethereum library. Currently we support ethers and web3.js. You only have to provide appropriate client to the contract class.
 
 ### ethers
 

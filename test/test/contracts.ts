@@ -8,6 +8,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import toWeb3Provider from "ethers-to-web3"
 import { testERC721 } from "./erc721";
 import { MyNFT } from "../typechain-types";
+import { testClient } from "./client";
 
 
 describe("contracts", () => {
@@ -35,6 +36,24 @@ describe("contracts", () => {
         await payload.erc20Token1.mint(payload.signer2.address, 900000000000);
         await payload.erc20Token1.mint(payload.signer4.address, 900000000000);
     });
+
+    describe("client", () => {
+        describe('web3js', () => {
+            testClient(
+                payload, (user: SignerWithAddress) => {
+                    return new Web3Client(toWeb3Provider(user.provider));
+                }
+            )
+        })
+
+        describe('ethers', () => {
+            testClient(
+                payload, (user: SignerWithAddress) => {
+                    return new EthersClient(user.provider as any);
+                }
+            )
+        })
+    })
 
 
     describe("erc20", () => {
