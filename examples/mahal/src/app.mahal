@@ -1,0 +1,62 @@
+---
+name: app.mahal
+description: This component is the main parent component which is used to initiate the app.
+dateCreated:
+---
+
+<html>
+<div>
+	<div :if(isLoaded)>
+		<h1>EthContract.js Demo</h1>
+		<div>
+			<button @click="alertTokenName">Get token Name</button>
+		</div>
+		<div>
+			<button class='mt-20' @click="alertTokenSymbol">Get token symbol</button>
+		</div>
+	</div>
+	<div :else>Loading...</div>
+</div>
+</html>
+
+<script>
+import { Component, children, reactive } from "mahal";
+import MahalIntro from "@/components/mahal_intro.mahal";
+import { ERC20, EthersClient } from "@opweb3/ethcontracts";
+import { ethers } from "ethers";
+
+@children({
+    MahalIntro,
+})
+export default class extends Component {
+    token: ERC20 = new ERC20("0x8f3cf7ad23cd3cadbd9735aff958023239c6a063");
+
+    @reactive
+    isLoaded = false;
+
+    async onInit() {
+        const provider = new ethers.providers.JsonRpcProvider(
+            "https://polygon-rpc.com"
+        );
+
+        await this.token.init(new EthersClient(provider));
+        this.isLoaded = true;
+    }
+
+    async alertTokenName() {
+        const name = await this.token.getName();
+        alert(`token name is ${name}`);
+    }
+
+    async alertTokenSymbol() {
+        const symbol = await this.token.getSymbol();
+        alert(`token symbol is ${symbol}`);
+    }
+}
+</script>
+
+<style>
+.mt-20 {
+    margin-top: 20px;
+}
+</style>
