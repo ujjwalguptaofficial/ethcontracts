@@ -4,6 +4,8 @@
 # ethcontracts
 Readymade ethereum contracts implementation with support for all ethereum library. The contracts are created based on [openzeppelin](https://github.com/OpenZeppelin) standard.
 
+> Smart contract development has became standard (everyone using openZeppelin) and so their calling can be made standard too. EthContract.js solves this problem and provide you readymade API with lots of flexibility and features.
+
 # install
 
 ```
