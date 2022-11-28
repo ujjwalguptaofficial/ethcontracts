@@ -1,6 +1,6 @@
-import { providers, Wallet, Contract } from "ethers";
+import { providers, Wallet } from "ethers";
 import { BaseWeb3Client } from "../abstracts";
-import { promiseResolve } from "../utils";
+import { lazyRequire, promiseResolve } from "../utils";
 import { EtherContract } from "./contract";
 
 type ETHER_PROVIDER = providers.JsonRpcProvider;
@@ -13,6 +13,10 @@ export class EthersClient extends BaseWeb3Client {
     provider: ETHER_PROVIDER;
     signer: ETHER_SIGNER;
     name = "ethers";
+
+    static getModule() {
+        return lazyRequire("ethers");
+    }
 
     /**
      * signer true means the provider contains signer and can send write tx
@@ -56,7 +60,7 @@ export class EthersClient extends BaseWeb3Client {
     getContract(address: string, abi: any) {
         return new EtherContract(
             address,
-            new Contract(address, abi, this.isSigner_ ? this.signer : this.provider),
+            new (EthersClient.getModule()).Contract(address, abi, this.isSigner_ ? this.signer : this.provider),
             this.logger
         );
     }

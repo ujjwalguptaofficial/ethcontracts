@@ -1,5 +1,6 @@
 import Web3 from "web3";
 import { BaseContract, BaseWeb3Client } from "../abstracts";
+import { lazyRequire } from "../utils";
 import { Web3Contract } from "./contract";
 
 export class Web3Client extends BaseWeb3Client {
@@ -7,9 +8,13 @@ export class Web3Client extends BaseWeb3Client {
     private web3_: Web3;
     name = "web3js";
 
+    static getModule() {
+        return lazyRequire("web3") as any;
+    }
+
     constructor(provider: any) {
         super();
-        this.web3_ = new Web3(provider);
+        this.web3_ = new (Web3Client.getModule())(provider);
     }
 
     private address_;
