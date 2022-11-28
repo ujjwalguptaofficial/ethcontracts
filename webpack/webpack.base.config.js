@@ -26,7 +26,8 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
         fallback: {
             "url": false,
-            "http": false
+            "http": false,
+            "https": false
         }
     },
     plugins: [

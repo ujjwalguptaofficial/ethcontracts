@@ -2,7 +2,7 @@
 const fetchApi: (input: RequestInfo, init?: RequestInit) => Promise<Response> = (() => {
     if (typeof window === 'undefined' || !window.fetch) {
         return (url: string, option?: RequestInit) => {
-            const http = require('http');
+            const http = require('https');
             const URL = require('url');
             const parsedURL = URL.parse(url);
             return new Promise<any>((resolve, rej) => {
@@ -25,6 +25,8 @@ const fetchApi: (input: RequestInfo, init?: RequestInit) => Promise<Response> = 
                             }
                         });
                     });
+
+                    response.on('error', rej);
 
                 }).on("error", rej).end();
             });
