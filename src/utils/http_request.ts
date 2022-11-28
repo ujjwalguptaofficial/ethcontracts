@@ -1,8 +1,9 @@
+import { lazyRequire } from "./lazy_require";
 // const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
 
 const fetchApi: (input: RequestInfo, init?: RequestInit) => Promise<Response> = (() => {
     if (typeof window === 'undefined' || !window.fetch) {
-        return require('node-fetch').default;
+        return lazyRequire('node-fetch').default;
     }
     return window.fetch;
 })();
