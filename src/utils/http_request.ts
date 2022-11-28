@@ -11,7 +11,7 @@ const fetchApi: (input: RequestInfo, init?: RequestInit) => Promise<Response> = 
                     host: parsedURL.host,
                     path: parsedURL.path
                 }, (response) => {
-                    let data = ''
+                    let data = '';
 
                     response.on('data', (chunk) => {
                         data += chunk;
@@ -23,12 +23,12 @@ const fetchApi: (input: RequestInfo, init?: RequestInit) => Promise<Response> = 
                             json() {
                                 return JSON.parse(data);
                             }
-                        })
+                        });
                     });
 
-                }).on("error", rej).end()
+                }).on("error", rej).end();
             });
-        }
+        };
     }
     return window.fetch;
 })();
