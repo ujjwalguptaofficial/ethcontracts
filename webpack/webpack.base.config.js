@@ -23,7 +23,11 @@ module.exports = {
     // },
     externals: [nodeExternals()],
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js'],
+        fallback: {
+            "url": false,
+            "http": false
+        }
     },
     plugins: [
         new webpack.BannerPlugin(banner),
