@@ -9,7 +9,7 @@ Readymade ethereum contracts implementation with support for all ethereum librar
 # install
 
 ```
-npm i @opweb3/ethcontracts
+npm i @ethcontracts/core
 ```
 
 # Features
