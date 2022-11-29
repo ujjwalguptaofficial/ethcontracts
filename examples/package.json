@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ethcontracts/core": "^1.2.0",
+    "@ethcontracts/core": "^1.2.1",
     "@ethcontracts/ethers": "^1.0.1",
     "@ethcontracts/web3": "^1.0.1"
   }
