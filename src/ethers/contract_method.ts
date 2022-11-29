@@ -1,7 +1,7 @@
 import { ILogger, ITransactionRequestConfig } from "../interfaces";
 import { BaseContractMethod } from "../abstracts";
 import { TYPE_GET_TRANSACTION_HASH, TYPE_GET_TRANSACTION_RECEIPT } from "../types";
-import { Contract, PopulatedTransaction, providers } from "ethers";
+import { BigNumber, Contract, PopulatedTransaction, providers } from "ethers";
 import { EthersClient } from "./ether_client";
 
 export class ContractMethod extends BaseContractMethod {
@@ -26,7 +26,6 @@ export class ContractMethod extends BaseContractMethod {
     }
 
     toBigNumber(value) {
-        const BigNumber = EthersClient.getModule().BigNumber;
         return value ? BigNumber.from(value) : value;
     }
 
