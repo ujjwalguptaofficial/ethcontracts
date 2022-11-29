@@ -1,6 +1,6 @@
 // const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
 const fetchApi: (input: RequestInfo, init?: RequestInit) => Promise<Response> = (() => {
-    if (typeof window === 'undefined' || !window.fetch) {
+    if (process.env.BUILD_ENV === "node" && (typeof window === 'undefined' || !window.fetch)) {
         return (url: string, option?: RequestInit) => {
             const http = require('https');
             const URL = require('url');

@@ -1,5 +1,4 @@
 const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
 const banner = require('../build_helper/licence');
 const webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
@@ -32,11 +31,6 @@ module.exports = {
     },
     plugins: [
         new webpack.BannerPlugin(banner),
-        new CopyPlugin({
-            patterns: [
-                { from: path.resolve('build_helper', 'npm.export.js'), to: '' },
-            ],
-        }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         })

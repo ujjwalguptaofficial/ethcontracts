@@ -4,6 +4,8 @@
   "description": "Readymade ethereum contracts implementation with support for all ethereum library.",
   "main": "dist/npm.export.js",
   "types": "dist/ts/index.d.ts",
+  "browser": "dist/npm.export.umd.js",
+  "react-native": "dist/ethcontracts.node.js",
   "scripts": {
     "lint": "tslint src/**/*.ts",
     "test": "cd test && npm run install:test",
