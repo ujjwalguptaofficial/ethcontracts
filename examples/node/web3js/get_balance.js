@@ -1,4 +1,5 @@
-const { ERC20, Web3Client } = require("@opweb3/ethcontracts");
+const { ERC20 } = require("@ethcontracts/core");
+const { Web3Client } = require("@ethcontracts/web3");
 const Web3 = require("web3");
 
 const token = new ERC20('0x8f3cf7ad23cd3cadbd9735aff958023239c6a063');

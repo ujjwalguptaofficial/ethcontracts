@@ -1,4 +1,5 @@
-const { ERC20, EthersClient } = require("@opweb3/ethcontracts");
+const { ERC20 } = require("@ethcontracts/core");
+const { EthersClient } = require("@ethcontracts/ethers");
 const { providers } = require("ethers");
 
 const token = new ERC20('0x8f3cf7ad23cd3cadbd9735aff958023239c6a063');
