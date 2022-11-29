@@ -1,6 +1,7 @@
 import './App.css';
 import { useEffect, useState } from "react";
-import { ERC20, EthersClient, } from "@opweb3/ethcontracts";
+import { ERC20, } from "@ethcontracts/core";
+import { EthersClient, } from "@ethcontracts/core";
 import { ethers } from 'ethers';
 
 // DAI token
