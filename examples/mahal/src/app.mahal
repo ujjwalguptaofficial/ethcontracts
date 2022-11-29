@@ -22,7 +22,8 @@ dateCreated:
 <script>
 import { Component, children, reactive } from "mahal";
 import MahalIntro from "@/components/mahal_intro.mahal";
-import { ERC20, EthersClient } from "@opweb3/ethcontracts";
+import { ERC20 } from "@ethcontracts/core";
+import { EthersClient } from "@ethcontracts/ethers";
 import { ethers } from "ethers";
 
 @children({
