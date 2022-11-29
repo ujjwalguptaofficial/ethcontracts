@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/@opweb3%2Fethcontracts.svg)](https://badge.fury.io/js/@opweb3%2Fethcontracts)
+[![npm version](https://badge.fury.io/js/@ethcontracts%2Fcore.svg)](https://badge.fury.io/js/@ethcontracts%2Fcore)
 [![GitHub version](https://badge.fury.io/gh/ujjwalguptaofficial%2Fethcontracts.svg)](https://badge.fury.io/gh/ujjwalguptaofficial%2Fethcontracts)
 [![CI](https://github.com/ujjwalguptaofficial/ethcontracts/actions/workflows/ci.yml/badge.svg)](https://github.com/ujjwalguptaofficial/ethcontracts/actions/workflows/ci.yml)
 # ethcontracts

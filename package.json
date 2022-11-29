@@ -1,6 +1,6 @@
 {
   "name": "@ethcontracts/core",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "Readymade ethereum contracts implementation with support for all ethereum library.",
   "main": "dist/npm.export.js",
   "types": "dist/ts/index.d.ts",
