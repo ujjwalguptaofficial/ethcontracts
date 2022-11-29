@@ -1,7 +1,8 @@
 import { TYPE_TRANSACTION_WRITE_RESULT } from "../types";
 import { ITransactionRequestConfig } from "./transaction_request_config";
+import { IERC165 } from "./erc165";
 
-export interface IERC721 {
+export interface IERC721 extends IERC165 {
     getName();
     getSymbol();
     getBalance(owner: string);
@@ -10,7 +11,6 @@ export interface IERC721 {
     getTokenURI(tokenId);
     getApprovedAccount(tokenId);
     isApprovedForAll(owner: string, operator: string);
-    isInterfaceSupported(interfaceId);
 
     approve(to: string, tokenId, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
     setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;

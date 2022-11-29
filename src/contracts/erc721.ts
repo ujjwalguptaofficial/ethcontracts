@@ -7,6 +7,10 @@ export class ERC721 extends BaseToken implements IERC721 {
         super(tokenAddress, contractName || 'erc721');
     }
 
+    getBalance<T>(userAdddress: string) {
+        return this.contract.method("balanceOf", userAdddress).read<T | any>();
+    }
+
     getTokenCount<T>(userAdddress: string) {
         return this.getBalance(userAdddress);
     }

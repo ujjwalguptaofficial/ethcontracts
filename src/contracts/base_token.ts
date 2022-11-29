@@ -28,10 +28,6 @@ export class BaseToken {
         return this.getProperty<string>("symbol");
     }
 
-    getBalance<T>(userAdddress: string) {
-        return this.contract.method("balanceOf", userAdddress).read<T | any>();
-    }
-
     get transactionData(): IERC20 {
         const that = this;
         const proxy = new Proxy({}, {

@@ -3,6 +3,7 @@
 export * from "./contracts/erc20";
 export * from "./contracts/erc721";
 export * from "./contracts/native_token";
+export * from "./contracts/erc1155";
 
 
 export * from "./abstracts";
