@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@ethcontracts/core": "file:../ethcontracts-core-1.1.5.tgz",
+    "@ethcontracts/ethers": "^1.0.0",
     "@ethcontracts/web3": "^1.0.0",
     "@openzeppelin/contracts": "^4.8.0",
     "@openzeppelin/hardhat-upgrades": "^1.21.0",
