@@ -9,7 +9,7 @@ const packageInfo = JSON.parse(content);
 if (packageInfo) {
     const version = packageInfo.version;
     console.log('version', version);
-    execSync(`npm i ../opweb3-ethcontracts-${version}.tgz`);
+    execSync(`npm i ../ethcontracts-core-${version}.tgz`);
 }
 else {
     throw "no package found";

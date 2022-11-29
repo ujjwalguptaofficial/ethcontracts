@@ -1,9 +1,10 @@
 
-import { ethers, upgrades } from "hardhat"
+import { ethers } from "hardhat"
 import { describe } from "mocha";
 import { IDeployedPayload } from "./interface";
 import { testERC20 } from "./erc20";
-import { EthersClient, Web3Client } from "@opweb3/ethcontracts";
+import { EthersClient } from "@ethcontracts/core";
+import { Web3Client } from "@ethcontracts/web3";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import toWeb3Provider from "ethers-to-web3"
 import { testERC721 } from "./erc721";

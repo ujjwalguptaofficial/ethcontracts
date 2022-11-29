@@ -1,5 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { BaseWeb3Client, ERC721 } from "@opweb3/ethcontracts"
+import { BaseWeb3Client, ERC721 } from "@ethcontracts/core"
 import { assert, expect } from "chai";
 import { ethers } from "hardhat";
 import { TransactionReceipt } from "web3-core";
