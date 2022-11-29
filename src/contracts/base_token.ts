@@ -8,7 +8,7 @@ import { merge } from "../utils";
 export class BaseToken {
 
     tokenAddress: string;
-    private client_: BaseWeb3Client;
+    protected client: BaseWeb3Client;
     protected contract: BaseContract;
     protected contractName: string;
 
@@ -49,20 +49,20 @@ export class BaseToken {
 
     init(client: BaseWeb3Client) {
         client.logger = globalConfig.logger;
-        this.client_ = client;
+        this.client = client;
         initService(globalConfig);
         return Promise.all([
             client.init(),
             service.abi.getABI(this.contractName)
         ]).then(result => {
             const abi = result[1];
-            this.contract = this.client_.getContract(this.tokenAddress, abi);
+            this.contract = this.client.getContract(this.tokenAddress, abi);
         });
     }
 
-    private createWriteTxConfig_(tx: ITransactionRequestConfig) {
+    protected createWriteTxConfig(tx?: ITransactionRequestConfig) {
         tx = tx || {};
-        tx.from = this.client_.walletAddress;
+        tx.from = this.client.walletAddress;
         return tx;
     }
 
@@ -75,7 +75,7 @@ export class BaseToken {
     static config = globalConfig;
 
     protected processWriteTransaction(method: BaseContractMethod, txConfig?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT {
-        txConfig = this.createWriteTxConfig_(txConfig);
+        txConfig = this.createWriteTxConfig(txConfig);
         if (this.shouldReturnTx_) {
             const result = merge(txConfig, {
                 to: method.address,
