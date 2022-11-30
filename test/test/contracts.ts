@@ -144,7 +144,7 @@ describe("contracts", () => {
                 nftToken = deployedContract;
 
 
-                await nftToken.mint(payload.deployer.address, 1, 100, "");
+                await nftToken.mint(payload.deployer.address, 1, 100, "0x");
                 // await nftToken.mint(payload.deployer.address, 2, 100, "");
                 // await nftToken.mint(payload.signer2.address, 3, 100, "");
                 // await nftToken.mint(payload.signer4.address, 4, 200, "");
