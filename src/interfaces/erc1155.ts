@@ -4,7 +4,7 @@ import { ITransactionRequestConfig } from "./transaction_request_config";
 
 export interface IERC1155 extends IERC165 {
     getBalance(account: string, id);
-    getBalanceInBatch(accounts: string[], ids: any[])
+    getBalanceInBatch(accounts: string[], ids: any[]);
     isApprovedForAll(account: string, operator: string, config?: ITransactionRequestConfig): Promise<boolean>;
 
     setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;

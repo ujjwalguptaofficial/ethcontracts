@@ -11,7 +11,7 @@ export class ERC1155 extends BaseToken implements IERC1155 {
     }
 
     getBalance<T>(userAdddress: string, id) {
-        return this.contract.method("balanceOf", userAdddress, id).read<T | any>()
+        return this.contract.method("balanceOf", userAdddress, id).read<T | any>();
     }
 
     getTokenCount<T>(userAdddress: string, id) {
