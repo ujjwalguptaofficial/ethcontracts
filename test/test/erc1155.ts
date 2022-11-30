@@ -21,24 +21,17 @@ export function testERC1155(payload: IDeployedPayload, getNftToken: () => GameNF
         )
     })
 
-    it('getBalance', async () => {
-        const userBalance = await erc1155.getBalance(payload.deployer.address, 1);
+    it('getTokenCount', async () => {
+        const userBalance = await erc1155.getTokenCount(payload.deployer.address, 1);
         expect(Number(userBalance)).equal(100)
     })
 
-    it('getBalanceInBatch', async () => {
-        const balance = await erc1155.getBalanceInBatch([
+    it('getTokenCountForMany', async () => {
+        const balance = await erc1155.getTokenCountForMany([
             payload.deployer.address,
             payload.signer2.address
         ], [1, 1]);
         expect(balance).eql(['100', '0']);
-    })
-
-    return;
-
-    it('getTokenURI', async () => {
-        const owner = await erc1155.getTokenURI(1);
-        expect(owner).equal("https://mynft.com/1");
     })
 
     it('isApprovedForAll', async () => {
@@ -50,10 +43,11 @@ export function testERC1155(payload: IDeployedPayload, getNftToken: () => GameNF
         const tokenId = 1;
         const to = payload.signer2.address;
         const from = payload.deployer.address;
-        const beforeBalanceOfFrom = await erc1155.getTokenCount(from);
-        const beforeBalanceOfTo = await erc1155.getTokenCount(to);
+        const beforeBalanceOfFrom = await erc1155.getTokenCount(from, tokenId);
+        const beforeBalanceOfTo = await erc1155.getTokenCount(to, tokenId);
+        const amount = 5;
 
-        const [getTransactionHash, getTxReceipt] = erc1155.transferFrom(from, to, tokenId);
+        const [getTransactionHash, getTxReceipt] = erc1155.safeTransferFrom(from, to, tokenId, amount);
         const txhash = await getTransactionHash();
         const receipt = await getTxReceipt<TransactionReceipt>();
         expect(txhash).to.be.string;
@@ -65,36 +59,24 @@ export function testERC1155(payload: IDeployedPayload, getNftToken: () => GameNF
 
         // check for amount transfer 
 
-        const afterBalanceOfFrom = await erc1155.getBalance(from);
-        const aftereBalanceOfTo = await erc1155.getBalance(to);
+        const afterBalanceOfFrom = await erc1155.getTokenCount(from, tokenId);
+        const aftereBalanceOfTo = await erc1155.getTokenCount(to, tokenId);
 
         expect(afterBalanceOfFrom.toString()).equal(
-            (Number(beforeBalanceOfFrom) - tokenId).toString()
+            (Number(beforeBalanceOfFrom) - amount).toString()
         )
         expect(aftereBalanceOfTo.toString()).eql(
-            (Number(beforeBalanceOfTo) + tokenId).toString()
+            (Number(beforeBalanceOfTo) + amount).toString()
         )
     })
 
-
-    it('approve', async () => {
-        const spender = payload.signer4.address;
-        const owner = payload.deployer.address;
-        const tokenId = 11;
-        const approvedAccountBefore = await erc1155.getApprovedAccount(tokenId);
-        expect(approvedAccountBefore).equal(ethers.constants.Zero);
-        const [getTxReceipt] = erc1155.approve(spender, tokenId);
-        await getTxReceipt();
-        const afterAllowance = await erc1155.getApprovedAccount(tokenId);
-        expect(afterAllowance).equal(spender);
-    })
 
     it('setApprovalForAll', async () => {
         const spender = payload.signer4.address;
         const owner = payload.signer2.address;
         const tokenId = 2;
 
-        const nft = new ERC721(nftToken.address);
+        const nft = new ERC1155(nftToken.address);
         await nft.init(
             getWeb3Client(payload.signer2)
         )
@@ -108,40 +90,50 @@ export function testERC1155(payload: IDeployedPayload, getNftToken: () => GameNF
         expect(afterAllowance).equal(true);
     })
 
-    it('safeTransferFrom', async () => {
-        const to = payload.signer3.address;
-        const from = payload.signer2.address;
-        const tokenId = 2;
+    it('safeBatchTransferFrom', async () => {
+        const tokenId1 = 1;
+        const tokenId2 = 2;
 
-        const beforeBalanceOfFrom = await erc1155.getBalance(from);
-        const beforeBalanceOfTo = await erc1155.getBalance(to);
+        const to = payload.signer2.address;
+        const from = payload.deployer.address;
+        const beforeBalanceOfFromForTokenId1 = await erc1155.getTokenCount(from, tokenId1);
+        const beforeBalanceOfFromForTokenId2 = await erc1155.getTokenCount(from, tokenId2);
 
-        const token = new ERC721(nftToken.address);
+        const beforeBalanceOfToForTokenId1 = await erc1155.getTokenCount(to, tokenId1);
+        const beforeBalanceOfToForTokenId2 = await erc1155.getTokenCount(to, tokenId2);
+
+        const amount = 5;
+
+        const token = new ERC1155(nftToken.address);
         await token.init(
-            getWeb3Client(payload.signer4)
+            getWeb3Client(payload.deployer)
         )
 
-        const oldOwner = await token.getOwner(tokenId);
-        expect(oldOwner).equal(from);
 
-        const [getTxReceipt] = token.safeTransferFrom(from, to, tokenId);
+
+        const [getTxReceipt] = token.safeBatchTransferFrom(from, to, [tokenId1, tokenId2], [amount, amount]);
         await getTxReceipt();
 
         // check for amount transfer 
 
-        const afterBalanceOfFrom = await erc1155.getBalance(from);
-        const aftereBalanceOfTo = await erc1155.getBalance(to);
+        const afterBalanceOfFromForTokenId1 = await erc1155.getTokenCount(from, tokenId1);
+        const afterBalanceOfFromForTokenId2 = await erc1155.getTokenCount(from, tokenId2);
 
-        expect(afterBalanceOfFrom.toString()).eql(
-            (Number(beforeBalanceOfFrom) - 1).toString()
+        const aftereBalanceOfToForTokenId1 = await erc1155.getTokenCount(to, tokenId1);
+        const aftereBalanceOfToForTokenId2 = await erc1155.getTokenCount(to, tokenId2);
+
+        expect(afterBalanceOfFromForTokenId1.toString()).eql(
+            (Number(beforeBalanceOfFromForTokenId1) - amount).toString()
         )
-        expect(aftereBalanceOfTo.toString()).eql(
-            (Number(beforeBalanceOfTo) + 1).toString()
+        expect(afterBalanceOfFromForTokenId2.toString()).eql(
+            (Number(beforeBalanceOfFromForTokenId2) - amount).toString()
         )
 
-        // check for new owner
-
-        const newOwner = await token.getOwner(tokenId);
-        expect(newOwner).equal(to);
+        expect(aftereBalanceOfToForTokenId1.toString()).eql(
+            (Number(beforeBalanceOfToForTokenId1) + amount).toString()
+        )
+        expect(aftereBalanceOfToForTokenId2.toString()).eql(
+            (Number(beforeBalanceOfToForTokenId2) + amount).toString()
+        )
     })
 }

@@ -10,20 +10,12 @@ export class ERC1155 extends BaseToken implements IERC1155 {
         return this.contract.method("supportsInterface", interfaceId).read<boolean>();
     }
 
-    getBalance<T>(userAdddress: string, id) {
+    getTokenCount<T>(userAdddress: string, id) {
         return this.contract.method("balanceOf", userAdddress, id).read<T | any>();
     }
 
-    getTokenCount<T>(userAdddress: string, id) {
-        return this.getBalance(userAdddress, id);
-    }
-
-    getBalanceInBatch<T>(accounts: string[], ids: any[]) {
-        return this.contract.method("balanceOfBatch", accounts, ids).read<T[] | any[]>();
-    }
-
     getTokenCountForMany<T>(accounts: string[], ids: any[]) {
-        return this.getBalanceInBatch(accounts, ids);
+        return this.contract.method("balanceOfBatch", accounts, ids).read<T[] | any[]>();
     }
 
     isApprovedForAll(owner: string, operator: string, config?: ITransactionRequestConfig | undefined) {
