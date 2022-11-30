@@ -64,7 +64,7 @@ describe("contracts", () => {
             )
         })
     })
-    
+
 
     describe("erc20", () => {
         describe('web3js', () => {
@@ -145,16 +145,16 @@ describe("contracts", () => {
 
 
                 await nftToken.mint(payload.deployer.address, 1, 100, "0x");
-                // await nftToken.mint(payload.deployer.address, 2, 100, "");
-                // await nftToken.mint(payload.signer2.address, 3, 100, "");
-                // await nftToken.mint(payload.signer4.address, 4, 200, "");
+                await nftToken.mint(payload.deployer.address, 2, 100, "0x");
+                await nftToken.mint(payload.signer2.address, 3, 100, "0x");
+                await nftToken.mint(payload.signer4.address, 4, 200, "0x");
             });
 
-            // testERC1155(
-            //     payload, () => nftToken, (user: SignerWithAddress) => {
-            //         return new Web3Client(toWeb3Provider(user));
-            //     }
-            // )
+            testERC1155(
+                payload, () => nftToken, (user: SignerWithAddress) => {
+                    return new Web3Client(toWeb3Provider(user));
+                }
+            )
         })
 
         // describe('ethers', () => {

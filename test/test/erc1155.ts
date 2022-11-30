@@ -23,15 +23,15 @@ export function testERC1155(payload: IDeployedPayload, getNftToken: () => GameNF
 
     it('getBalance', async () => {
         const userBalance = await erc1155.getBalance(payload.deployer.address, 1);
-        expect(Number(userBalance)).equal(12)
+        expect(Number(userBalance)).equal(100)
     })
 
     it('getBalanceInBatch', async () => {
-        const owner = await erc1155.getBalanceInBatch([
+        const balance = await erc1155.getBalanceInBatch([
             payload.deployer.address,
             payload.signer2.address
         ], [1, 1]);
-        expect(owner).equal(payload.deployer.address);
+        expect(balance).eql(['100', '0']);
     })
 
     return;

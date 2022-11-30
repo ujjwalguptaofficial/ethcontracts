@@ -19,7 +19,7 @@ export class ERC1155 extends BaseToken implements IERC1155 {
     }
 
     getBalanceInBatch<T>(accounts: string[], ids: any[]) {
-        return this.contract.method("balanceOf", accounts, ids).read<T[] | any[]>();
+        return this.contract.method("balanceOfBatch", accounts, ids).read<T[] | any[]>();
     }
 
     getTokenCountForMany<T>(accounts: string[], ids: any[]) {
@@ -35,16 +35,16 @@ export class ERC1155 extends BaseToken implements IERC1155 {
         return this.processWriteTransaction(method, config);
     }
 
-    safeTransferFrom(from: string, to: string, id: any, amount: any, data: any, config?: ITransactionRequestConfig | undefined) {
+    safeTransferFrom(from: string, to: string, id: any, amount: any, data?: any, config?: ITransactionRequestConfig | undefined) {
         const method = this.contract.method(
-            "safeTransferFrom", from, to, id, amount, data
+            "safeTransferFrom", from, to, id, amount, data || '0x'
         );
         return this.processWriteTransaction(method, config);
     }
 
-    safeBatchTransferFrom(from: string, to: string, ids: any[], amounts: any[], data: any, config?: ITransactionRequestConfig | undefined) {
+    safeBatchTransferFrom(from: string, to: string, ids: any[], amounts: any[], data?: any, config?: ITransactionRequestConfig | undefined) {
         const method = this.contract.method(
-            "safeBatchTransferFrom", from, to, ids, amounts, data
+            "safeBatchTransferFrom", from, to, ids, amounts, data || '0x'
         );
         return this.processWriteTransaction(method, config);
     }
