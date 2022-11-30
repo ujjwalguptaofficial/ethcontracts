@@ -8,8 +8,9 @@ import { EthersClient } from "@ethcontracts/ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import toWeb3Provider from "ethers-to-web3"
 import { testERC721 } from "./erc721";
-import { MyNFT } from "../typechain-types";
+import { GameNFT, MyNFT } from "../typechain-types";
 import { testClient } from "./client";
+import { testERC1155 } from "./erc1155";
 
 
 describe("contracts", () => {
@@ -38,19 +39,7 @@ describe("contracts", () => {
         await payload.erc20Token1.mint(payload.signer4.address, 900000000000);
     });
 
-    let nftToken: MyNFT;
-    it('deploy erc721 token', async () => {
-        const contract = await ethers.getContractFactory('MyNFT');
 
-        const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
-        nftToken = deployedContract;
-
-
-        await nftToken.mint(payload.deployer.address, 1);
-        await nftToken.mint(payload.deployer.address, 11);
-        await nftToken.mint(payload.signer2.address, 2);
-        await nftToken.mint(payload.signer4.address, 3);
-    });
 
     describe("client", () => {
         describe('web3js', () => {
@@ -75,6 +64,7 @@ describe("contracts", () => {
             )
         })
     })
+    
 
     describe("erc20", () => {
         describe('web3js', () => {
@@ -97,6 +87,19 @@ describe("contracts", () => {
     describe("erc721", () => {
         describe('web3js', () => {
 
+            let nftToken: MyNFT;
+            it('deploy erc721 token', async () => {
+                const contract = await ethers.getContractFactory('MyNFT');
+
+                const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
+                nftToken = deployedContract;
+
+
+                await nftToken.mint(payload.deployer.address, 1);
+                await nftToken.mint(payload.deployer.address, 11);
+                await nftToken.mint(payload.signer2.address, 2);
+                await nftToken.mint(payload.signer4.address, 3);
+            });
 
             testERC721(
                 payload, () => nftToken, (user: SignerWithAddress) => {
@@ -128,5 +131,54 @@ describe("contracts", () => {
                 }
             )
         })
+    })
+
+    describe("erc1155", () => {
+        describe('web3js', () => {
+
+            let nftToken: GameNFT;
+            it('deploy erc1155 token', async () => {
+                const contract = await ethers.getContractFactory('GameNFT');
+
+                const deployedContract = await contract.deploy();
+                nftToken = deployedContract;
+
+
+                await nftToken.mint(payload.deployer.address, 1, 100, "");
+                // await nftToken.mint(payload.deployer.address, 2, 100, "");
+                // await nftToken.mint(payload.signer2.address, 3, 100, "");
+                // await nftToken.mint(payload.signer4.address, 4, 200, "");
+            });
+
+            // testERC1155(
+            //     payload, () => nftToken, (user: SignerWithAddress) => {
+            //         return new Web3Client(toWeb3Provider(user));
+            //     }
+            // )
+        })
+
+        // describe('ethers', () => {
+
+        //     let nftToken: MyNFT;
+        //     it('deploy erc721 token', async () => {
+        //         const contract = await ethers.getContractFactory('MyNFT');
+
+        //         const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
+        //         nftToken = deployedContract;
+
+
+        //         await nftToken.mint(payload.deployer.address, 1);
+        //         await nftToken.mint(payload.deployer.address, 11);
+        //         await nftToken.mint(payload.signer2.address, 2);
+        //         await nftToken.mint(payload.signer4.address, 3);
+
+        //     });
+
+        //     testERC721(
+        //         payload, () => nftToken, (user: SignerWithAddress) => {
+        //             return new EthersClient(user as any);
+        //         }
+        //     )
+        // })
     })
 })
