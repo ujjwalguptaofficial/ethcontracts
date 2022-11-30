@@ -4,7 +4,7 @@ import { ERC20 } from "./erc20";
 export class ERC20Burnable extends ERC20 implements IERC20Burnable {
 
     constructor(tokenAddress: string, contractName?: string) {
-        super(tokenAddress, contractName || "erc20_burnable")
+        super(tokenAddress, contractName || "erc20_burnable");
     }
 
     /**
