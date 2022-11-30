@@ -1,4 +1,7 @@
-const { ERC20, Web3Client, EthersClient } = require("@opweb3/ethcontracts");
+const { ERC20 } = require("@ethcontracts/core");
+const { EthersClient } = require("@ethcontracts/ethers");
+const { Web3Client } = require("@ethcontracts/web3");
+
 const Web3 = require("web3");
 const { providers, Contract } = require("ethers");
 const abi = require("../abi/erc20.json");
