@@ -18,7 +18,7 @@ export class ERC1155 extends BaseToken implements IERC1155 {
         return this.contract.method("balanceOfBatch", accounts, ids).read<T[] | any[]>();
     }
 
-    isApprovedForAll(owner: string, operator: string, config?: ITransactionRequestConfig | undefined) {
+    isApprovedForAll(owner: string, operator: string) {
         return this.contract.method("isApprovedForAll", owner, operator).read<boolean>();
     }
 

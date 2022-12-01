@@ -1,9 +1,9 @@
 import { BaseContract, BaseContractMethod, BaseWeb3Client } from "../abstracts";
 import { globalConfig } from "../global";
 import { IERC20, ITransactionRequestConfig } from "../interfaces";
-import { initService, service } from "../services";
+import { initService } from "../services";
 import { TYPE_TRANSACTION_WRITE_RESULT } from "../types";
-import { merge } from "../utils";
+import { merge, ABIManager } from "../utils";
 
 export class BaseToken {
 
@@ -49,7 +49,7 @@ export class BaseToken {
         initService(globalConfig);
         return Promise.all([
             client.init(),
-            service.abi.getABI(this.contractName)
+            ABIManager.getABI(this.contractName)
         ]).then(result => {
             const abi = result[1];
             this.contract = this.client.getContract(this.tokenAddress, abi);

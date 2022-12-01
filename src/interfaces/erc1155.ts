@@ -5,7 +5,7 @@ import { ITransactionRequestConfig } from "./transaction_request_config";
 export interface IERC1155 extends IERC165 {
     getTokenCount(account: string, id);
     getTokenCountForMany(accounts: string[], ids: any[]);
-    isApprovedForAll(account: string, operator: string, config?: ITransactionRequestConfig): Promise<boolean>;
+    isApprovedForAll(account: string, operator: string): Promise<boolean>;
 
     setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
 

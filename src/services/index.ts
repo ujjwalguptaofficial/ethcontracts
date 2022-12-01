@@ -7,5 +7,6 @@ interface IService {
 export const service: IService = {} as any;
 
 export const initService = (globalConfig: any) => {
+    if (service.abi) return;
     service.abi = new ABIService(globalConfig.abiStoreUrl);
 };
