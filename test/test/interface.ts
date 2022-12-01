@@ -7,7 +7,4 @@ export interface IDeployedPayload {
     signer2: SignerWithAddress;
     signer3: SignerWithAddress;
     signer4: SignerWithAddress;
-    erc20Token1: MyToken,
-    erc20Token2: MyToken,
-    nftToken1: MyNFT
 }

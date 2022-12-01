@@ -2,14 +2,18 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BaseWeb3Client, ERC20 } from "@ethcontracts/core"
 import { assert, expect } from "chai";
 import { IDeployedPayload } from "./interface"
+import { MyToken } from "../typechain-types";
 
 
-export function testClient(payload: IDeployedPayload, getWeb3ReadClient: (user: SignerWithAddress) => BaseWeb3Client, getWeb3WriteClient: (user: SignerWithAddress) => BaseWeb3Client) {
+export function testClient(payload: IDeployedPayload, getToken: () => MyToken, getWeb3ReadClient: (user: SignerWithAddress) => BaseWeb3Client, getWeb3WriteClient: (user: SignerWithAddress) => BaseWeb3Client) {
+
+
     describe("read only tx", () => {
         let erc20: ERC20;
-
+        let myToken: MyToken;
         before(async () => {
-            erc20 = new ERC20(payload.erc20Token1.address);
+            myToken = getToken();
+            erc20 = new ERC20(myToken.address);
             await erc20.init(
                 // new Web3Client(network.provider)
 
@@ -26,8 +30,10 @@ export function testClient(payload: IDeployedPayload, getWeb3ReadClient: (user: 
     describe("fail write tx", () => {
         let erc20: ERC20;
 
+        let myToken: MyToken;
         before(async () => {
-            erc20 = new ERC20(payload.erc20Token1.address);
+            myToken = getToken();
+            erc20 = new ERC20(myToken.address);
             await erc20.init(
                 // new Web3Client(network.provider)
 

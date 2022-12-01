@@ -3,13 +3,15 @@ import { BaseWeb3Client, ERC20 } from "@ethcontracts/core"
 import { assert, expect } from "chai";
 import { TransactionReceipt } from "web3-core";
 import { IDeployedPayload } from "./interface"
+import { MyToken } from "../typechain-types";
 
 
-export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
+export function testERC20(payload: IDeployedPayload, getToken: () => MyToken, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
     let erc20: ERC20;
-
+    let myToken: MyToken;
     it('setup', async () => {
-        erc20 = new ERC20(payload.erc20Token1.address);
+        myToken = getToken();
+        erc20 = new ERC20(myToken.address);
         await erc20.init(
             // new Web3Client(network.provider)
 
@@ -34,7 +36,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
 
     it('user balance', async () => {
         const userBalance = await erc20.getBalance(payload.deployer.address);
-        expect(Number(userBalance)).greaterThan(0)
+        expect(Number(userBalance)).equal(900000000000);
     })
 
     it('total supply', async () => {
@@ -57,7 +59,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         // check receipt
         expect(receipt.transactionHash).equal(txhash);
         expect(receipt.blockHash).to.be.string;
-        expect(receipt.to.toLowerCase()).equal(payload.erc20Token1.address.toLowerCase());
+        expect(receipt.to.toLowerCase()).equal(myToken.address.toLowerCase());
 
         // check for amount transfer 
 
@@ -89,7 +91,7 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         const beforeBalanceOfFrom = await erc20.getBalance(from);
         const beforeBalanceOfTo = await erc20.getBalance(to);
 
-        const token = new ERC20(payload.erc20Token1.address);
+        const token = new ERC20(myToken.address);
         await token.init(
             getWeb3Client(payload.signer4)
         )

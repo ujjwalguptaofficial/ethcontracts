@@ -8,7 +8,7 @@ import { EthersClient } from "@ethcontracts/ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import toWeb3Provider from "ethers-to-web3"
 import { testERC721 } from "./erc721";
-import { GameNFT, MyNFT } from "../typechain-types";
+import { GameNFT, MyNFT, MyToken } from "../typechain-types";
 import { testClient } from "./client";
 import { testERC1155 } from "./erc1155";
 
@@ -28,23 +28,26 @@ describe("contracts", () => {
         payload.signer4 = signer4;
     })
 
-    it('deploy erc20 token', async () => {
-        const contract = await ethers.getContractFactory('MyToken');
 
-        const deployedContract = await contract.deploy("MyToken", "MT");
-        payload.erc20Token1 = deployedContract;
-
-        await payload.erc20Token1.mint(payload.deployer.address, 900000000000);
-        await payload.erc20Token1.mint(payload.signer2.address, 900000000000);
-        await payload.erc20Token1.mint(payload.signer4.address, 900000000000);
-    });
 
 
 
     describe("client", () => {
         describe('web3js', () => {
+            let erc20Token: MyToken;
+            it('deploy erc20 token', async () => {
+                const contract = await ethers.getContractFactory('MyToken');
+
+                const deployedContract = await contract.deploy("MyToken", "MT");
+                erc20Token = deployedContract;
+
+                await erc20Token.mint(payload.deployer.address, 900000000000);
+                await erc20Token.mint(payload.signer2.address, 900000000000);
+                await erc20Token.mint(payload.signer4.address, 900000000000);
+            });
+
             testClient(
-                payload, (user: SignerWithAddress) => {
+                payload, () => erc20Token, (user: SignerWithAddress) => {
                     return new Web3Client(toWeb3Provider(user.provider));
                 },
                 (user: SignerWithAddress) => {
@@ -54,8 +57,20 @@ describe("contracts", () => {
         })
 
         describe('ethers', () => {
+            let erc20Token: MyToken;
+            it('deploy erc20 token', async () => {
+                const contract = await ethers.getContractFactory('MyToken');
+
+                const deployedContract = await contract.deploy("MyToken", "MT");
+                erc20Token = deployedContract;
+
+                await erc20Token.mint(payload.deployer.address, 900000000000);
+                await erc20Token.mint(payload.signer2.address, 900000000000);
+                await erc20Token.mint(payload.signer4.address, 900000000000);
+            });
+
             testClient(
-                payload, (user: SignerWithAddress) => {
+                payload, () => erc20Token, (user: SignerWithAddress) => {
                     return new EthersClient(user.provider as any);
                 },
                 (user: SignerWithAddress) => {
@@ -68,16 +83,40 @@ describe("contracts", () => {
 
     describe("erc20", () => {
         describe('web3js', () => {
+            let erc20Token: MyToken;
+            it('deploy erc20 token', async () => {
+                const contract = await ethers.getContractFactory('MyToken');
+
+                const deployedContract = await contract.deploy("MyToken", "MT");
+                erc20Token = deployedContract;
+
+                await erc20Token.mint(payload.deployer.address, 900000000000);
+                await erc20Token.mint(payload.signer2.address, 900000000000);
+                await erc20Token.mint(payload.signer4.address, 900000000000);
+            });
+
             testERC20(
-                payload, (user: SignerWithAddress) => {
+                payload, () => erc20Token, (user: SignerWithAddress) => {
                     return new Web3Client(toWeb3Provider(user));
                 }
             )
         })
 
         describe('ethers', () => {
+            let erc20Token: MyToken;
+            it('deploy erc20 token', async () => {
+                const contract = await ethers.getContractFactory('MyToken');
+
+                const deployedContract = await contract.deploy("MyToken", "MT");
+                erc20Token = deployedContract;
+
+                await erc20Token.mint(payload.deployer.address, 900000000000);
+                await erc20Token.mint(payload.signer2.address, 900000000000);
+                await erc20Token.mint(payload.signer4.address, 900000000000);
+            });
+
             testERC20(
-                payload, (user: SignerWithAddress) => {
+                payload, () => erc20Token, (user: SignerWithAddress) => {
                     return new EthersClient(user as any);
                 }
             )
