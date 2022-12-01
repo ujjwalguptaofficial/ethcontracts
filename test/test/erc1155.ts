@@ -31,7 +31,7 @@ export function testERC1155(payload: IDeployedPayload, getNftToken: () => GameNF
             payload.deployer.address,
             payload.signer2.address
         ], [1, 1]);
-        expect(balance).eql(['100', '0']);
+        expect(balance.map(q => q.toString())).eql(['100', '0']);
     })
 
     it('isApprovedForAll', async () => {

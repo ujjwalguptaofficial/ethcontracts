@@ -157,28 +157,28 @@ describe("contracts", () => {
             )
         })
 
-        // describe('ethers', () => {
+        describe('ethers', () => {
 
-        //     let nftToken: MyNFT;
-        //     it('deploy erc721 token', async () => {
-        //         const contract = await ethers.getContractFactory('MyNFT');
+            let nftToken: GameNFT;
+            it('deploy erc721 token', async () => {
+                const contract = await ethers.getContractFactory('GameNFT');
 
-        //         const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
-        //         nftToken = deployedContract;
+                const deployedContract = await contract.deploy();
+                nftToken = deployedContract;
 
 
-        //         await nftToken.mint(payload.deployer.address, 1);
-        //         await nftToken.mint(payload.deployer.address, 11);
-        //         await nftToken.mint(payload.signer2.address, 2);
-        //         await nftToken.mint(payload.signer4.address, 3);
+                await nftToken.mint(payload.deployer.address, 1, 100, "0x");
+                await nftToken.mint(payload.deployer.address, 2, 100, "0x");
+                await nftToken.mint(payload.signer2.address, 3, 100, "0x");
+                await nftToken.mint(payload.signer4.address, 4, 200, "0x");
 
-        //     });
+            });
 
-        //     testERC721(
-        //         payload, () => nftToken, (user: SignerWithAddress) => {
-        //             return new EthersClient(user as any);
-        //         }
-        //     )
-        // })
+            testERC1155(
+                payload, () => nftToken, (user: SignerWithAddress) => {
+                    return new EthersClient(user as any);
+                }
+            )
+        })
     })
 })
