@@ -5,9 +5,60 @@ import { ethers } from "hardhat";
 import { TransactionReceipt } from "web3-core";
 import { GameNFT, MyNFT } from "../typechain-types";
 import { IDeployedPayload } from "./interface"
+import { EthersClient } from "@ethcontracts/ethers";
+import { Web3Client } from "@ethcontracts/web3";
+import toWeb3Provider from "ethers-to-web3"
+
+export function testERC1155(payload: IDeployedPayload) {
+    describe('web3js', () => {
+
+        let nftToken: GameNFT;
+        it('deploy erc1155 token', async () => {
+            const contract = await ethers.getContractFactory('GameNFT');
+
+            const deployedContract = await contract.deploy();
+            nftToken = deployedContract;
 
 
-export function testERC1155(payload: IDeployedPayload, getNftToken: () => GameNFT, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
+            await nftToken.mint(payload.deployer.address, 1, 100, "0x");
+            await nftToken.mint(payload.deployer.address, 2, 100, "0x");
+            await nftToken.mint(payload.signer2.address, 3, 100, "0x");
+            await nftToken.mint(payload.signer4.address, 4, 200, "0x");
+        });
+
+        testERC1155API(
+            payload, () => nftToken, (user: SignerWithAddress) => {
+                return new Web3Client(toWeb3Provider(user));
+            }
+        )
+    })
+
+    describe('ethers', () => {
+
+        let nftToken: GameNFT;
+        it('deploy erc721 token', async () => {
+            const contract = await ethers.getContractFactory('GameNFT');
+
+            const deployedContract = await contract.deploy();
+            nftToken = deployedContract;
+
+
+            await nftToken.mint(payload.deployer.address, 1, 100, "0x");
+            await nftToken.mint(payload.deployer.address, 2, 100, "0x");
+            await nftToken.mint(payload.signer2.address, 3, 100, "0x");
+            await nftToken.mint(payload.signer4.address, 4, 200, "0x");
+
+        });
+
+        testERC1155API(
+            payload, () => nftToken, (user: SignerWithAddress) => {
+                return new EthersClient(user as any);
+            }
+        )
+    })
+}
+
+function testERC1155API(payload: IDeployedPayload, getNftToken: () => GameNFT, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
     let erc1155: ERC1155;
     let nftToken: GameNFT;
 

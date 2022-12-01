@@ -1,13 +1,64 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BaseWeb3Client, ERC721 } from "@ethcontracts/core"
 import { assert, expect } from "chai";
-import { ethers } from "hardhat";
 import { TransactionReceipt } from "web3-core";
 import { MyNFT } from "../typechain-types";
 import { IDeployedPayload } from "./interface"
+import { EthersClient } from "@ethcontracts/ethers";
+import { Web3Client } from "@ethcontracts/web3";
+import { ethers } from "hardhat";
+import toWeb3Provider from "ethers-to-web3"
+
+export function testERC721(payload: IDeployedPayload) {
+    describe('web3js', () => {
+
+        let nftToken: MyNFT;
+        it('deploy erc721 token', async () => {
+            const contract = await ethers.getContractFactory('MyNFT');
+
+            const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
+            nftToken = deployedContract;
 
 
-export function testERC721(payload: IDeployedPayload, getNftToken: () => MyNFT, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
+            await nftToken.mint(payload.deployer.address, 1);
+            await nftToken.mint(payload.deployer.address, 11);
+            await nftToken.mint(payload.signer2.address, 2);
+            await nftToken.mint(payload.signer4.address, 3);
+        });
+
+        testERC721API(
+            payload, () => nftToken, (user: SignerWithAddress) => {
+                return new Web3Client(toWeb3Provider(user));
+            }
+        )
+    })
+
+    describe('ethers', () => {
+
+        let nftToken: MyNFT;
+        it('deploy erc721 token', async () => {
+            const contract = await ethers.getContractFactory('MyNFT');
+
+            const deployedContract = await contract.deploy("MyNFTToken", "MNFT");
+            nftToken = deployedContract;
+
+
+            await nftToken.mint(payload.deployer.address, 1);
+            await nftToken.mint(payload.deployer.address, 11);
+            await nftToken.mint(payload.signer2.address, 2);
+            await nftToken.mint(payload.signer4.address, 3);
+
+        });
+
+        testERC721API(
+            payload, () => nftToken, (user: SignerWithAddress) => {
+                return new EthersClient(user as any);
+            }
+        )
+    })
+}
+
+function testERC721API(payload: IDeployedPayload, getNftToken: () => MyNFT, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
     let erc721: ERC721;
     let nftToken: MyNFT;
     it('setup', async () => {

@@ -4,9 +4,55 @@ import { assert, expect } from "chai";
 import { TransactionReceipt } from "web3-core";
 import { IDeployedPayload } from "./interface"
 import { MyToken } from "../typechain-types";
+import { EthersClient } from "@ethcontracts/ethers";
+import { Web3Client } from "@ethcontracts/web3";
+import { ethers } from "hardhat";
+import toWeb3Provider from "ethers-to-web3"
 
 
-export function testERC20(payload: IDeployedPayload, getToken: () => MyToken, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
+export function testERC20(payload: IDeployedPayload) {
+    describe('web3js', () => {
+        let erc20Token: MyToken;
+        it('deploy erc20 token', async () => {
+            const contract = await ethers.getContractFactory('MyToken');
+
+            const deployedContract = await contract.deploy("MyToken", "MT");
+            erc20Token = deployedContract;
+
+            await erc20Token.mint(payload.deployer.address, 900000000000);
+            await erc20Token.mint(payload.signer2.address, 900000000000);
+            await erc20Token.mint(payload.signer4.address, 900000000000);
+        });
+
+        testERC20API(
+            payload, () => erc20Token, (user: SignerWithAddress) => {
+                return new Web3Client(toWeb3Provider(user));
+            }
+        )
+    })
+
+    describe('ethers', () => {
+        let erc20Token: MyToken;
+        it('deploy erc20 token', async () => {
+            const contract = await ethers.getContractFactory('MyToken');
+
+            const deployedContract = await contract.deploy("MyToken", "MT");
+            erc20Token = deployedContract;
+
+            await erc20Token.mint(payload.deployer.address, 900000000000);
+            await erc20Token.mint(payload.signer2.address, 900000000000);
+            await erc20Token.mint(payload.signer4.address, 900000000000);
+        });
+
+        testERC20API(
+            payload, () => erc20Token, (user: SignerWithAddress) => {
+                return new EthersClient(user as any);
+            }
+        )
+    })
+}
+
+function testERC20API(payload: IDeployedPayload, getToken: () => MyToken, getWeb3Client: (user: SignerWithAddress) => BaseWeb3Client) {
     let erc20: ERC20;
     let myToken: MyToken;
     it('setup', async () => {
