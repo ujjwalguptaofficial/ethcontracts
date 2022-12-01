@@ -14,8 +14,8 @@ export class ERC20Burnable extends ERC20 implements IERC20Burnable {
      * @memberof ERC20Burnable
      */
     burn(amount: any, txConfig?: ITransactionRequestConfig) {
-        const method = this.contract.method("burn", amount, txConfig);
-        return this.processWriteTransaction(method);
+        const method = this.contract.method("burn", amount);
+        return this.processWriteTransaction(method, txConfig);
     }
 
     /**
@@ -28,7 +28,7 @@ export class ERC20Burnable extends ERC20 implements IERC20Burnable {
      * @memberof ERC20Burnable
      */
     burnFrom(account: string, amount: any, txConfig?: ITransactionRequestConfig) {
-        const method = this.contract.method("burnFrom", account, amount, txConfig);
-        return this.processWriteTransaction(method);
+        const method = this.contract.method("burnFrom", account, amount);
+        return this.processWriteTransaction(method, txConfig);
     }
 }

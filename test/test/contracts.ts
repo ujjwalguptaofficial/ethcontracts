@@ -11,6 +11,7 @@ import { testERC721 } from "./erc721";
 import { GameNFT, MyNFT, MyToken } from "../typechain-types";
 import { testClient } from "./client";
 import { testERC1155 } from "./erc1155";
+import { testERC20Burnable } from "./erc20_burnable";
 
 
 describe("contracts", () => {
@@ -121,6 +122,10 @@ describe("contracts", () => {
                 }
             )
         })
+    })
+
+    describe("erc20 burnable", () => {
+        testERC20Burnable(payload);
     })
 
     describe("erc721", () => {
