@@ -45,6 +45,7 @@ export function testERC721(payload: IDeployedPayload) {
 
             await nftToken.mint(payload.deployer.address, 1);
             await nftToken.mint(payload.deployer.address, 11);
+            await nftToken.mint(payload.deployer.address, 111);
             await nftToken.mint(payload.signer2.address, 2);
             await nftToken.mint(payload.signer4.address, 3);
 

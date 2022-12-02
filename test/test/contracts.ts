@@ -7,6 +7,7 @@ import { testERC721 } from "./erc721";
 import { testClient } from "./client";
 import { testERC1155 } from "./erc1155";
 import { testERC20Burnable } from "./erc20_burnable";
+import { testERC721Burnable } from "./erc721_burnable";
 
 
 describe("contracts", () => {
@@ -39,6 +40,10 @@ describe("contracts", () => {
 
     describe("erc721", () => {
         testERC721(payload);
+    })
+
+    describe("erc721 burnable", () => {
+        testERC721Burnable(payload);
     })
 
     describe("erc1155", () => {
