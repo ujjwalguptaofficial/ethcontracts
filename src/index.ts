@@ -10,6 +10,7 @@ export * from "./contracts/erc721";
 export * from "./contracts/erc721_burnable";
 
 export * from "./contracts/erc1155";
+export * from "./contracts/erc1155_burnable";
 
 
 export * from "./abstracts";

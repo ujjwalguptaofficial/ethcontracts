@@ -7,3 +7,4 @@ export * from "./erc20_burnable";
 export * from "./erc20_cap";
 export * from "./erc20_snapshot";
 export * from "./erc721_burnable";
+export * from "./erc1155_burnable";
