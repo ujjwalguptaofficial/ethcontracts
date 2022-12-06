@@ -15,6 +15,6 @@ export class ERC721Burnable extends ERC721 implements IERC721Burnable {
      */
     burn(tokenId: any, txConfig?: ITransactionRequestConfig) {
         const method = this.contract.method("burn", tokenId);
-        return this.processWriteTransaction(method, txConfig);
+        return this.writeTransaction(method, txConfig);
     }
 }

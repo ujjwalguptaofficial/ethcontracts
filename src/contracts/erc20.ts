@@ -1,5 +1,5 @@
 import { IERC20, ITransactionRequestConfig } from "../interfaces";
-import { BaseToken } from "./base_token";
+import { BaseToken } from "./base_contract";
 
 export class ERC20 extends BaseToken implements IERC20 {
 
@@ -26,26 +26,26 @@ export class ERC20 extends BaseToken implements IERC20 {
 
     approve(spender: string, amount, tx?: ITransactionRequestConfig) {
         const method = this.contract.method("approve", spender, amount.toString());
-        return this.processWriteTransaction(method, tx);
+        return this.writeTransaction(method, tx);
     }
 
     transfer(to: string, amount, tx?: ITransactionRequestConfig) {
         const method = this.contract.method("transfer", to, amount.toString());
-        return this.processWriteTransaction(method, tx);
+        return this.writeTransaction(method, tx);
     }
 
     transferFrom(from: string, to: string, amount, tx?: ITransactionRequestConfig) {
         const method = this.contract.method("transferFrom", from, to, amount.toString());
-        return this.processWriteTransaction(method, tx);
+        return this.writeTransaction(method, tx);
     }
 
     increaseAllowance(spender: string, addedValue, tx?: ITransactionRequestConfig) {
         const method = this.contract.method("increaseAllowance", spender, addedValue.toString());
-        return this.processWriteTransaction(method, tx);
+        return this.writeTransaction(method, tx);
     }
 
     decreaseAllowance(spender: string, subtractedValue, tx?: ITransactionRequestConfig) {
         const method = this.contract.method("decreaseAllowance", spender, subtractedValue.toString());
-        return this.processWriteTransaction(method, tx);
+        return this.writeTransaction(method, tx);
     }
 }

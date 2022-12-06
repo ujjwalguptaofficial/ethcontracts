@@ -70,7 +70,7 @@ export class BaseToken {
 
     static config = globalConfig;
 
-    protected processWriteTransaction(method: BaseContractMethod, txConfig?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT {
+    protected writeTransaction(method: BaseContractMethod, txConfig?: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT {
         txConfig = this.createWriteTxConfig(txConfig);
         if (this.shouldReturnTx_) {
             const result = merge(txConfig, {

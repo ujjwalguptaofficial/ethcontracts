@@ -1,5 +1,5 @@
 import { IERC1155, ITransactionRequestConfig } from "../interfaces";
-import { BaseToken } from "./base_token";
+import { BaseToken } from "./base_contract";
 
 export class ERC1155 extends BaseToken implements IERC1155 {
     constructor(tokenAddress: string, contractName?: string) {
@@ -24,21 +24,21 @@ export class ERC1155 extends BaseToken implements IERC1155 {
 
     setApprovalForAll(operator: string, approved: boolean, config?: ITransactionRequestConfig) {
         const method = this.contract.method("setApprovalForAll", operator, approved);
-        return this.processWriteTransaction(method, config);
+        return this.writeTransaction(method, config);
     }
 
     safeTransferFrom(from: string, to: string, id: any, amount: any, data?: any, config?: ITransactionRequestConfig | undefined) {
         const method = this.contract.method(
             "safeTransferFrom", from, to, id, amount, data || '0x'
         );
-        return this.processWriteTransaction(method, config);
+        return this.writeTransaction(method, config);
     }
 
     safeBatchTransferFrom(from: string, to: string, ids: any[], amounts: any[], data?: any, config?: ITransactionRequestConfig | undefined) {
         const method = this.contract.method(
             "safeBatchTransferFrom", from, to, ids, amounts, data || '0x'
         );
-        return this.processWriteTransaction(method, config);
+        return this.writeTransaction(method, config);
     }
 
 }

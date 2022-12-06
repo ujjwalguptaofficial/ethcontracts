@@ -1,5 +1,5 @@
 import { ITransactionRequestConfig } from "../interfaces";
-import { BaseToken } from "./base_token";
+import { BaseToken } from "./base_contract";
 
 export class NativeToken extends BaseToken {
 

@@ -1,5 +1,7 @@
 //indvidual contract class needs to be exported to allow treeshaking
 
+export * from "./contracts/base_contract";
+
 export * from "./contracts/erc20";
 export * from "./contracts/erc20_burnable";
 export * from "./contracts/erc20_capped";
