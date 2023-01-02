@@ -1,5 +1,5 @@
 import { IERC1155, ITransactionRequestConfig } from "../interfaces";
-import { BaseToken } from "./base_contract";
+import { BaseToken } from "./base_token";
 
 export class ERC1155 extends BaseToken implements IERC1155 {
     constructor(tokenAddress: string, contractName?: string) {

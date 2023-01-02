@@ -1,5 +1,5 @@
 import { IERC721, ITransactionRequestConfig } from "../interfaces";
-import { BaseToken } from "./base_contract";
+import { BaseToken } from "./base_token";
 
 export class ERC721 extends BaseToken implements IERC721 {
 

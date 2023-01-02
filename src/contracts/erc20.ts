@@ -1,5 +1,5 @@
 import { IERC20, ITransactionRequestConfig } from "../interfaces";
-import { BaseToken } from "./base_contract";
+import { BaseToken } from "./base_token";
 
 export class ERC20 extends BaseToken implements IERC20 {
 
