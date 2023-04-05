@@ -9,4 +9,6 @@ export abstract class BaseContractMethod {
     abstract read<T>(tx?: ITransactionRequestConfig,): Promise<T>;
     abstract write(tx: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT;
     abstract encodeABI(): any;
+
+    abstract estimateGas(config: ITransactionRequestConfig): Promise<number>;
 }
